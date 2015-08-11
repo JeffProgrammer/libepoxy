@@ -21,6 +21,7 @@
  * IN THE SOFTWARE.
  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <epoxy/wgl.h>
 #include "wgl_common.h"

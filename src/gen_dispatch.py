@@ -606,7 +606,7 @@ class Generator(object):
         #
         # It also writes out the actual initialized global function
         # pointer.
-        if func.ret_type == 'void':
+        if func.ret_type == 'void' or func.ret_type == 'VOID':
             self.outln('GEN_THUNKS({0}, ({1}), ({2}))'.format(func.wrapped_name,
                                                               func.args_decl,
                                                               func.args_list))
@@ -753,8 +753,10 @@ class Generator(object):
         self.outln('')
         self.outln('#ifdef __GNUC__')
         self.outln('#define EPOXY_NOINLINE __attribute__((noinline))')
+        self.outln('#define EPOXY_INLINE inline')
         self.outln('#elif defined (_MSC_VER)')
         self.outln('#define EPOXY_NOINLINE __declspec(noinline)')
+        self.outln('#define EPOXY_INLINE')
         self.outln('#endif')
 
         self.outln('struct dispatch_table {')
@@ -768,7 +770,7 @@ class Generator(object):
         # per-GL-call code, since it's the most interesting to see
         # when you search for the implementation of a call)
         self.outln('#if USING_DISPATCH_TABLE')
-        self.outln('static inline struct dispatch_table *')
+        self.outln('static EPOXY_INLINE struct dispatch_table *')
         self.outln('get_dispatch_table(void);')
         self.outln('')
         self.outln('#endif')
@@ -797,7 +799,7 @@ class Generator(object):
         self.outln('uint32_t {0}_tls_size = sizeof(struct dispatch_table);'.format(self.target))
         self.outln('')
 
-        self.outln('static inline struct dispatch_table *')
+        self.outln('static EPOXY_INLINE struct dispatch_table *')
         self.outln('get_dispatch_table(void)')
         self.outln('{')
         self.outln('	return TlsGetValue({0}_tls_index);'.format(self.target))

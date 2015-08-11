@@ -199,7 +199,7 @@ static EGLenum
 epoxy_egl_get_current_gl_context_api(void);
 #endif
 
-#if defined(BUILD_STATIC) && defined(BUILD_WGL)
+#if !defined(BUILD_SHARED_LIBS) && PLATFORM_HAS_WGL
 extern void construct_wgl();
 extern void destruct_wgl();
 

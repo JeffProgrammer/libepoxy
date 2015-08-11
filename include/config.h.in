@@ -1,0 +1,9 @@
+#cmakedefine HAVE_KHRPLATFORM_H
+#define BUILD_EGL @_EPOXY_EGL@
+#define BUILD_GLX @_EPOXY_GLX@
+#define BUILD_WGL @_EPOXY_WGL@
+#cmakedefine BUILD_SHARED_LIBS
+
+#ifdef BUILD_SHARED_LIBS
+#cmakedefine EPOXY_USE_DLLIMPORT
+#endif

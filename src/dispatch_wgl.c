@@ -89,7 +89,7 @@ epoxy_handle_external_wglMakeCurrent(void)
     }
 }
 
-#ifndef BUILD_STATIC
+#ifdef BUILD_SHARED_LIBS
 /**
  * This global symbol is apparently looked up by Windows when loading
  * a DLL, but it doesn't declare the prototype.
