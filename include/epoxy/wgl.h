@@ -30,12 +30,14 @@
 #ifndef EPOXY_WGL_H
 #define EPOXY_WGL_H
 
+#define WIN32_LEAN_AND_MEAN
+#include <stdbool.h>
+#include <windows.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <stdbool.h>
-#include <windows.h>
 
 #undef wglUseFontBitmaps
 #undef wglUseFontOutlines
