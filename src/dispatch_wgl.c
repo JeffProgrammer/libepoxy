@@ -89,6 +89,7 @@ epoxy_handle_external_wglMakeCurrent(void)
     }
 }
 
+#ifndef BUILD_STATIC
 /**
  * This global symbol is apparently looked up by Windows when loading
  * a DLL, but it doesn't declare the prototype.
@@ -140,6 +141,41 @@ DllMain(HINSTANCE dll, DWORD reason, LPVOID reserved)
 
     return TRUE;
 }
+#else
+void construct_wgl()
+{
+	void *data;
+
+	gl_tls_index = TlsAlloc();
+	if (gl_tls_index == TLS_OUT_OF_INDEXES)
+		return;
+
+	wgl_tls_index = TlsAlloc();
+	if (wgl_tls_index == TLS_OUT_OF_INDEXES)
+		return;
+
+	first_context_current = false;
+
+	data = LocalAlloc(LPTR, gl_tls_size);
+	TlsSetValue(gl_tls_index, data);
+
+	data = LocalAlloc(LPTR, wgl_tls_size);
+	TlsSetValue(wgl_tls_index, data);
+}
+void destruct_wgl()
+{
+    void *data;
+
+	data = TlsGetValue(gl_tls_index);
+	LocalFree(data);
+
+	data = TlsGetValue(wgl_tls_index);
+	LocalFree(data);
+
+	TlsFree(gl_tls_index);
+	TlsFree(wgl_tls_index);
+}
+#endif
 
 WRAPPER_VISIBILITY (BOOL)
 WRAPPER(epoxy_wglMakeCurrent)(HDC hdc, HGLRC hglrc)
