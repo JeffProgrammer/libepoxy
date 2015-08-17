@@ -30,6 +30,11 @@
 #ifndef EPOXY_WGL_H
 #define EPOXY_WGL_H
 
+// Prevent Duplicate Definition Warnings
+#if defined(APIENTRY) && !defined(WINAPI)
+#undef APIENTRY
+#endif
+
 #define WIN32_LEAN_AND_MEAN
 #include <stdbool.h>
 #include <windows.h>
