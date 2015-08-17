@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.2)
-project(EPOXY)
+cmake_minimum_required(VERSION 2.8)
+project(epoxy)
 
 #
 # Project Options
@@ -42,7 +42,7 @@ if (MSVC)
 else()
     include(CheckCCompilerFlag)
 
-    add_definitions(-Wall -ggdb)
+    add_definitions(-Wall)
 
     set(CMAKE_REQUIRED_FLAGS "-Wno-int-conversion")
     check_c_compiler_flag("" _EPOXY_HAS_NOINTCONVERSION)
@@ -224,12 +224,28 @@ set_target_properties(epoxy PROPERTIES
 #
 
 if(EPOXY_BUILD_TESTS)
+	enable_testing()
 	if(_EPOXY_WGL)
 		add_executable(test_wgl_core_and_exts ${WGL_TESTS} "${PROJECT_SOURCE_DIR}/test/wgl_core_and_exts.c")
 		target_link_libraries(test_wgl_core_and_exts epoxy)
+		add_test(test_wgl_core_and_exts test_wgl_core_and_exts)
 		add_executable(test_wgl_per_context_funcptrs ${WGL_TESTS} "${PROJECT_SOURCE_DIR}/test/wgl_per_context_funcptrs.c")
 		target_link_libraries(test_wgl_per_context_funcptrs epoxy)
+		add_test(test_wgl_per_context_funcptrs test_wgl_per_context_funcptrs)
 		add_executable(test_wgl_usefontbitmaps ${WGL_TESTS} "${PROJECT_SOURCE_DIR}/test/wgl_usefontbitmaps.c")
 		target_link_libraries(test_wgl_usefontbitmaps epoxy)
+		add_test(test_wgl_usefontbitmaps test_wgl_usefontbitmaps)
 	endif()
 endif()
+
+#
+# Install
+#
+
+install(TARGETS epoxy
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION ${LIBDIR}
+	ARCHIVE DESTINATION ${LIBDIR})
+
+install(DIRECTORY "${PROJECT_BINARY_DIR}/include/epoxy" DESTINATION include)
+install(DIRECTORY "${PROJECT_SOURCE_DIR}/include/epoxy" DESTINATION include)
