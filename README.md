@@ -26,25 +26,19 @@ Features
 Building
 --------
 
-    ./autogen.sh
+Building with cmake is tested to work with the following configurations:
+
+* Windows 8.1 using Visual C++ 2013 (VC12)
+* Windows 8.1 using MinGW GCC 5.1.0
+
+Building is standard using CMake:
+
+    mkdir *[build_dir]*
+	cd *[build_dir]*
+    cmake *[source_dir]*
     make
-    sudo make install
 
-Dependencies for debian:
-
-* automake
-* libegl1-mesa-dev
-* xutils-dev
-
-Dependencies for OS X (macports):
-
-* automake
-* autoconf
-* xorg-util-macros
-* pkgconfig
-
-The test suite has additional dependencies depending on the platform.
-(X11, EGL, a running X Server).
+I have not created an installation target yet. This is still WIP.
 
 Switching your code to using epoxy
 ----------------------------------
