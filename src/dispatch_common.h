@@ -21,7 +21,7 @@
  * IN THE SOFTWARE.
  */
 
-#include <config.h>
+#include <epoxy_config.h>
 #include <stdbool.h>
 
 #ifdef _WIN32

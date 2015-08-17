@@ -113,8 +113,8 @@ check_include_files("KHR/khrplatform.h" HAVE_KHRPLATFORM_H)
 file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/include/epoxy")
 file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/src")
 configure_file (
-	"${PROJECT_SOURCE_DIR}/include/config.h.in"
-	"${PROJECT_BINARY_DIR}/include/config.h"
+	"${PROJECT_SOURCE_DIR}/include/epoxy_config.h.in"
+	"${PROJECT_BINARY_DIR}/include/epoxy_config.h"
 )
 include_directories("${PROJECT_BINARY_DIR}/include" "${PROJECT_SOURCE_DIR}/include" "${PROJECT_SOURCE_DIR}/src")
 
