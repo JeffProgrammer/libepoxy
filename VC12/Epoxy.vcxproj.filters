@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{EC0172A4-676F-4056-AF47-51CEFF9B198D}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{C8091A1B-C395-425C-9C78-C0AA6AF5B11A}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{EDA3ACCB-8BE7-4402-8E35-E50A31D0AB3F}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\epoxy">
+      <UniqueIdentifier>{3D2638E2-6E68-470D-978A-C86387730E90}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\COPYING" />
+    <Text Include="..\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="epoxy_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\dispatch_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\epoxy\gl.h">
+      <Filter>Header Files\epoxy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\epoxy\wgl.h">
+      <Filter>Header Files\epoxy</Filter>
+    </ClInclude>
+    <ClInclude Include="epoxy\gl_generated.h">
+      <Filter>Header Files\epoxy</Filter>
+    </ClInclude>
+    <ClInclude Include="epoxy\wgl_generated.h">
+      <Filter>Header Files\epoxy</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="gl_generated_dispatch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wgl_generated_dispatch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\dispatch_common.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\dispatch_wgl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
