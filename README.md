@@ -26,12 +26,12 @@ Features
 Building
 --------
 
-Building with cmake is tested to work with the following configurations:
+Building with CMake is tested to work with the following configurations:
 
-* Windows 8.1 using Visual C++ 2013 (VC12)
+* Windows 8.1 using Visual C++ 2013
 * Windows 8.1 using MinGW GCC 5.1.0
 
-Building is standard using CMake:
+The standard CMake build instructions should work:
 
     mkdir *[build_dir]*
 	cd *[build_dir]*
