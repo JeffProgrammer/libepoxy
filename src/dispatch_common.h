@@ -28,7 +28,11 @@
 #define PLATFORM_HAS_EGL 0
 #define PLATFORM_HAS_GLX 0
 #define PLATFORM_HAS_WGL BUILD_WGL
+#ifdef BUILD_SHARED_LIBS
 #define EPOXY_IMPORTEXPORT __declspec(dllexport)
+#else
+#define EPOXY_IMPORTEXPORT
+#endif
 #elif defined(__APPLE__)
 #define PLATFORM_HAS_EGL 0
 #define PLATFORM_HAS_GLX 0
@@ -59,7 +63,11 @@
 
 #ifndef PUBLIC
 #  ifdef _WIN32
-#    define PUBLIC __declspec(dllexport)
+#    ifdef BUILD_SHARED_LIBS
+#      define PUBLIC __declspec(dllexport)
+#    else
+#      define PUBLIC
+#    endif
 #  elif (defined(__GNUC__) && __GNUC__ >= 4) || (defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590))
 #    define PUBLIC __attribute__((visibility("default")))
 #  else
