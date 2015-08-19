@@ -78,7 +78,11 @@ core
 # For example, !report.pc overrides *.pc. See 'man gitignore'
 # 
 
+*.opensdf
+*.sdf
+*.suo
 *.user
+VC12
 
 configure.lineno
 .dirstamp

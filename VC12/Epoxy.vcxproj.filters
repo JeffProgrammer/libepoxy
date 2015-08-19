@@ -34,24 +34,24 @@
     <ClInclude Include="..\include\epoxy\wgl.h">
       <Filter>Header Files\epoxy</Filter>
     </ClInclude>
-    <ClInclude Include="epoxy\gl_generated.h">
+    <ClInclude Include="Include\epoxy\gl_generated.h">
       <Filter>Header Files\epoxy</Filter>
     </ClInclude>
-    <ClInclude Include="epoxy\wgl_generated.h">
+    <ClInclude Include="Include\epoxy\wgl_generated.h">
       <Filter>Header Files\epoxy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="gl_generated_dispatch.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="wgl_generated_dispatch.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\dispatch_common.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\dispatch_wgl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\gl_generated_dispatch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\wgl_generated_dispatch.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
