@@ -33,12 +33,14 @@ Building with CMake is tested to work with the following configurations:
 
 The standard CMake build instructions should work:
 
-    mkdir *[build_dir]*
-	cd *[build_dir]*
-    cmake *[source_dir]*
-    make
+    mkdir [build_dir]
+	cd [build_dir]
+    cmake [source_dir]
+    make && make test
 
-I have not created an installation target yet. This is still WIP.
+There is also a prebuilt VS2013/VC12 solution now available should you prefer not to use proper build tools.
+
+I've left the original autoconf/automake files intact for now, but they almost certainly do not work due to the other changes I've made. They will be removed as soon as the CMake project builds on Linux and OSX.
 
 Switching your code to using epoxy
 ----------------------------------
