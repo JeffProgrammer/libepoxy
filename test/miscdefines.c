@@ -21,13 +21,14 @@
  * IN THE SOFTWARE.
  */
 
+#include "epoxy_config.h"
 #include <epoxy/gl.h>
 
-#ifdef BUILD_EGL
+#if BUILD_EGL
 #include <epoxy/egl.h>
 #endif
 
-#ifdef BUILD_GLX
+#if BUILD_GLX
 #include <epoxy/glx.h>
 #endif
 

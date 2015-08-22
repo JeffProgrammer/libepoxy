@@ -225,6 +225,21 @@ set_target_properties(epoxy PROPERTIES
 
 if(EPOXY_BUILD_TESTS)
 	enable_testing()
+
+	add_executable(test_headerguards "${PROJECT_SOURCE_DIR}/test/headerguards.c")
+	target_link_libraries(test_headerguards epoxy)
+	add_test(test_headerguards test_headerguards)
+
+	if(HAVE_KHRPLATFORM_H)
+		add_executable(test_khronos_typedefs "${PROJECT_SOURCE_DIR}/test/khronos_typedefs.h" "${PROJECT_SOURCE_DIR}/test/khronos_typedefs.c" "${PROJECT_SOURCE_DIR}/test/khronos_typedefs_nonepoxy.c")
+		target_link_libraries(test_khronos_typedefs epoxy)
+		add_test(test_khronos_typedefs test_khronos_typedefs)
+	endif()
+
+	add_executable(test_miscdefines "${PROJECT_SOURCE_DIR}/test/miscdefines.c")
+	target_link_libraries(test_miscdefines epoxy)
+	add_test(test_miscdefines test_miscdefines)
+
 	if(_EPOXY_WGL)
 		add_executable(test_wgl_core_and_exts ${WGL_TESTS} "${PROJECT_SOURCE_DIR}/test/wgl_core_and_exts.c")
 		target_link_libraries(test_wgl_core_and_exts epoxy)
@@ -244,8 +259,8 @@ endif()
 
 install(TARGETS epoxy
 	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION ${LIBDIR}
-	ARCHIVE DESTINATION ${LIBDIR})
+	LIBRARY DESTINATION lib
+	ARCHIVE DESTINATION lib)
 
 install(DIRECTORY "${PROJECT_BINARY_DIR}/include/epoxy" DESTINATION include)
 install(DIRECTORY "${PROJECT_SOURCE_DIR}/include/epoxy" DESTINATION include)

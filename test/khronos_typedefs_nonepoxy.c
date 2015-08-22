@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "config.h"
+#include "epoxy_config.h"
 #include "khronos_typedefs.h"
 
 #ifdef HAVE_KHRPLATFORM_H

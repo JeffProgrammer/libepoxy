@@ -21,28 +21,27 @@
  * IN THE SOFTWARE.
  */
 
-#include <config.h>
-
+#include "epoxy_config.h"
 #include <epoxy/gl.h>
 
-#ifdef BUILD_EGL
+#if BUILD_EGL
 #include <epoxy/egl.h>
 #include <epoxy/egl.h>
 #endif
 
-#ifdef BUILD_GLX
+#if BUILD_GLX
 #include <epoxy/glx.h>
 #include <epoxy/glx.h>
 #endif
 
-#ifdef BUILD_EGL
+#if BUILD_EGL
 #include <EGL/egl.h>
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
 #include <EGL/eglext.h>
 #endif
 
-#ifdef BUILD_GLX
+#if BUILD_GLX
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #include <OpenGL/glext.h>
