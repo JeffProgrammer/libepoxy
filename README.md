@@ -28,6 +28,7 @@ Building
 
 Building with CMake is tested to work with the following configurations:
 
+* OSX 10.9 using LLVM 6.1.0 (Xcode)
 * Windows 8.1 using Visual C++ 2013
 * Windows 8.1 using MinGW GCC 5.1.0
 
@@ -38,7 +39,7 @@ The standard CMake build instructions should work:
     cmake [source_dir]
     make && make test
 
-There is also a prebuilt VS2013/VC12 solution now available should you prefer not to use proper build tools.
+There is also a prebuilt VS2013 (VC12) solution now available should you prefer not to use proper build tools.
 
 I've left the original autoconf/automake files intact for now, but they almost certainly do not work due to the other changes I've made. They will be removed as soon as the CMake project builds on Linux and OSX.
 
