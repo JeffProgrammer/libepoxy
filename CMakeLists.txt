@@ -8,7 +8,10 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake/modules")
 
 option(BUILD_SHARED_LIBS "Build Shared Libraries" ON)
 option(EPOXY_BUILD_TESTS "Build Epoxy Test Programs" ON)
-option(EPOXY_USE_DLLIMPORT "Use __declspec(dllimport) For Shared Library" ON)
+
+if(WIN32 OR MSYS)
+	option(EPOXY_USE_DLLIMPORT "Use __declspec(dllimport) For Shared Library" ON)
+endif()
 
 if(UNIX AND NOT MSYS)
 	option(EPOXY_BUILD_GLX "Build Epoxy GLX Support" ON)
