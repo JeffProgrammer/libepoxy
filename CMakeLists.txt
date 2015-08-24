@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(epoxy)
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake/modules")
 
 #
 # Project Options
@@ -10,13 +11,19 @@ option(EPOXY_BUILD_TESTS "Build Epoxy Test Programs" ON)
 option(EPOXY_USE_DLLIMPORT "Use __declspec(dllimport) For Shared Library" ON)
 
 if(UNIX AND NOT MSYS)
-	option(EPOXY_BUILD_GLX "Build Epoxy GLX support" ON)
-	option(EPOXY_BUILD_EGL "Build Epoxy EGL support" ON)
+	option(EPOXY_BUILD_GLX "Build Epoxy GLX Support" ON)
 else()
-	option(EPOXY_BUILD_EGL "Build Epoxy EGL support" OFF)
+	option(EPOXY_BUILD_GLX "Build Epoxy GLX Support" OFF)
 endif()
+
+if(UNIX AND NOT APPLE)
+	option(EPOXY_BUILD_EGL "Build Epoxy EGL Support" ON)
+else()
+	option(EPOXY_BUILD_EGL "Build Epoxy EGL Support" OFF)
+endif()
+
 if (MSVC)
-    option(USE_MSVC_RUNTIME_LIBRARY_DLL "Use MSVC runtime library DLL" ON)
+    option(USE_MSVC_RUNTIME_LIBRARY_DLL "Use MSVC Runtime Library DLL" ON)
 endif()
 
 #
@@ -24,31 +31,43 @@ endif()
 #
 
 if (MSVC)
-    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-    if (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)
-        foreach (flag CMAKE_C_FLAGS
-                        CMAKE_C_FLAGS_DEBUG
-                        CMAKE_C_FLAGS_RELEASE
-                        CMAKE_C_FLAGS_MINSIZEREL
-                        CMAKE_C_FLAGS_RELWITHDEBINFO)
-            if (${flag} MATCHES "/MD")
-                string(REGEX REPLACE "/MD" "/MT" ${flag} "${${flag}}")
-            endif()
-            if (${flag} MATCHES "/MDd")
-                string(REGEX REPLACE "/MDd" "/MTd" ${flag} "${${flag}}")
-            endif()
-        endforeach()
-    endif()
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+	if (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)
+		foreach (flag CMAKE_C_FLAGS
+				CMAKE_C_FLAGS_DEBUG
+				CMAKE_C_FLAGS_RELEASE
+				CMAKE_C_FLAGS_MINSIZEREL
+				CMAKE_C_FLAGS_RELWITHDEBINFO)
+			if (${flag} MATCHES "/MD")
+				string(REGEX REPLACE "/MD" "/MT" ${flag} "${${flag}}")
+			endif()
+			if (${flag} MATCHES "/MDd")
+				string(REGEX REPLACE "/MDd" "/MTd" ${flag} "${${flag}}")
+			endif()
+		endforeach()
+	endif()
 else()
-    include(CheckCCompilerFlag)
+	include(CheckCCompilerFlag)
 
-    add_definitions(-Wall)
+	add_definitions(-Wall)
 
-    set(CMAKE_REQUIRED_FLAGS "-Wno-int-conversion")
-    check_c_compiler_flag("" _EPOXY_HAS_NOINTCONVERSION)
-    if(_EPOXY_HAS_NOINTCONVERSION)
-        add_definitions(-Wno-int-conversion)
-    endif()
+	set(CMAKE_REQUIRED_FLAGS "-std=gnu11")
+	check_c_compiler_flag("" _EPOXY_HAS_GNU11)
+	if (_EPOXY_HAS_GNU11)
+		add_definitions(-std=gnu11)
+	else()
+		set(CMAKE_REQUIRED_FLAGS "-std=gnu99")
+		check_c_compiler_flag("" _EPOXY_HAS_GNU99)
+		if (_EPOXY_HAS_GNU99)
+			add_definitions(-std=gnu99)
+		endif()
+	endif()
+
+	set(CMAKE_REQUIRED_FLAGS "-Wno-int-conversion")
+	check_c_compiler_flag("" _EPOXY_HAS_NOINTCONVERSION)
+	if(_EPOXY_HAS_NOINTCONVERSION)
+		add_definitions(-Wno-int-conversion)
+	endif()
 
 	set(CMAKE_REQUIRED_FLAGS "-fvisibility=hidden")
 	check_c_compiler_flag("" _EPOXY_HAS_VISIBLITYHIDDEN)
@@ -91,20 +110,22 @@ endif()
 # Build Configuration
 #
 
-if (WIN32)
+set(_EPOXY_EGL 0)
+set(_EPOXY_GLX 0)
+set(_EPOXY_WGL 0)
+
+find_package(EGL)
+find_package(OpenGL)
+find_package(X11)
+
+if (WIN32 OR MSYS)
 	set(_EPOXY_WGL 1)
-else()
-	set(_EPOXY_WGL 0)
 endif()
-if(EPOXY_USE_EGL)
+if(EPOXY_BUILD_EGL AND EGL_FOUND)
 	set(_EPOXY_EGL 1)
-else()
-	set(_EPOXY_EGL 0)
 endif()
-if(EPOXY_USE_GLX)
+if(EPOXY_BUILD_GLX AND X11_FOUND)
 	set(_EPOXY_GLX 1)
-else()
-	set(_EPOXY_GLX 0)
 endif()
 
 include(CheckIncludeFiles)
@@ -172,12 +193,13 @@ set(GLX_SOURCE
 set(WGL_SOURCE
 	"${PROJECT_SOURCE_DIR}/src/dispatch_wgl.c"
 	"${PROJECT_BINARY_DIR}/src/wgl_generated_dispatch.c" )
-	
+
 #
 # Build Subsystems
 #
 
 if(_EPOXY_EGL)
+	find_package(EGL)
 	list(APPEND GL_SOURCE "${EGL_SOURCE}")
 	list(APPEND GL_HEADERS "${EGL_HEADERS}")
 	set(EGL_TESTS
@@ -214,10 +236,10 @@ endif()
 
 add_library(epoxy ${EPOXY_LIB_TYPE} ${GL_SOURCE} ${GL_HEADERS})
 set_target_properties(epoxy PROPERTIES
-                      OUTPUT_NAME "${EPOXY_LIB_NAME}"
-                      VERSION ${EPOXY_VERSION}
-                      SOVERSION ${EPOXY_VERSION_MAJOR}
-                      POSITION_INDEPENDENT_CODE ON)
+		OUTPUT_NAME "${EPOXY_LIB_NAME}"
+		VERSION ${EPOXY_VERSION}
+		SOVERSION ${EPOXY_VERSION_MAJOR}
+		POSITION_INDEPENDENT_CODE ON)
 
 #
 # Test Executables
@@ -226,9 +248,98 @@ set_target_properties(epoxy PROPERTIES
 if(EPOXY_BUILD_TESTS)
 	enable_testing()
 
+	if(_EPOXY_EGL AND X11_FOUND)
+		add_executable(test_egl_has_extension_nocontext ${EGL_TESTS} "${PROJECT_SOURCE_DIR}/test/egl_has_extension_nocontext.c")
+		target_link_libraries(test_egl_has_extension_nocontext epoxy ${X11_LIBRARIES})
+		add_test(test_egl_has_extension_nocontext test_egl_has_extension_nocontext)
+
+		add_executable(test_egl_gl ${EGL_TESTS} "${PROJECT_SOURCE_DIR}/test/egl_gl.c")
+		target_link_libraries(test_egl_gl epoxy ${CMAKE_DL_LIBS} ${X11_LIBRARIES})
+		add_test(test_egl_gl test_egl_gl)
+
+		add_executable(test_egl_gles1_without_glx ${EGL_TESTS} "${PROJECT_SOURCE_DIR}/test/egl_without_glx.c")
+		set_target_properties(test_egl_gles1_without_glx PROPERTIES COMPILE_FLAGS "-DGLES_VERSION=1")
+		target_link_libraries(test_egl_gles1_without_glx epoxy ${CMAKE_DL_LIBS} ${X11_LIBRARIES})
+		add_test(test_egl_gles1_without_glx test_egl_gles1_without_glx)
+
+		add_executable(test_egl_gles2_without_glx ${EGL_TESTS} "${PROJECT_SOURCE_DIR}/test/egl_without_glx.c")
+		set_target_properties(test_egl_gles2_without_glx PROPERTIES COMPILE_FLAGS "-DGLES_VERSION=2")
+		target_link_libraries(test_egl_gles2_without_glx epoxy ${CMAKE_DL_LIBS} ${X11_LIBRARIES})
+		add_test(test_egl_gles2_without_glx test_egl_gles2_without_glx)
+	endif()
+
+	if(_EPOXY_EGL AND _EPOXY_GLX AND NOT APPLE)
+		add_executable(test_egl_and_glx_different_pointers ${EGL_TESTS} ${GLX_TESTS} "${PROJECT_SOURCE_DIR}/test/egl_and_glx_different_pointers.c" "${PROJECT_SOURCE_DIR}/test/dlwrap.c" "${PROJECT_SOURCE_DIR}/test/dlwrap.h")
+		set_target_properties(test_egl_and_glx_different_pointers PROPERTIES COMPILE_FLAGS "-DUSE_EGL -DUSE_GLX" LINK_FLAGS "-rdynamic")
+		target_link_libraries(test_egl_and_glx_different_pointers epoxy ${CMAKE_DL_LIBS} ${X11_LIBRARIES})
+		add_test(test_egl_and_glx_different_pointers test_egl_and_glx_different_pointers)
+
+		add_executable(test_egl_different_pointers ${EGL_TESTS} ${GLX_TESTS} "${PROJECT_SOURCE_DIR}/test/egl_and_glx_different_pointers.c" "${PROJECT_SOURCE_DIR}/test/dlwrap.c" "${PROJECT_SOURCE_DIR}/test/dlwrap.h")
+		set_target_properties(test_egl_different_pointers PROPERTIES COMPILE_FLAGS "-DUSE_EGL" LINK_FLAGS "-rdynamic")
+		target_link_libraries(test_egl_different_pointers epoxy ${CMAKE_DL_LIBS} ${X11_LIBRARIES})
+		add_test(test_egl_different_pointers test_egl_different_pointers)
+
+		add_executable(test_glx_different_pointers ${EGL_TESTS} ${GLX_TESTS} "${PROJECT_SOURCE_DIR}/test/egl_and_glx_different_pointers.c" "${PROJECT_SOURCE_DIR}/test/dlwrap.c" "${PROJECT_SOURCE_DIR}/test/dlwrap.h")
+		set_target_properties(test_glx_different_pointers PROPERTIES COMPILE_FLAGS "-DUSE_GLX" LINK_FLAGS "-rdynamic")
+		target_link_libraries(test_glx_different_pointers epoxy ${CMAKE_DL_LIBS} ${X11_LIBRARIES})
+		add_test(test_glx_different_pointers test_glx_different_pointers)
+	endif()
+
+	if(_EPOXY_GLX)
+		if(!APPLE)
+			add_executable(test_glx_alias_prefer_same_name ${GLX_TESTS} "${PROJECT_SOURCE_DIR}/test/glx_alias_prefer_same_name.c" "${PROJECT_SOURCE_DIR}/test/dlwrap.c" "${PROJECT_SOURCE_DIR}/test/dlwrap.h")
+			set_target_properties(test_glx_alias_prefer_same_name PROPERTIES LINK_FLAGS "-rdynamic")
+			target_link_libraries(test_glx_alias_prefer_same_name epoxy ${CMAKE_DL_LIBS} ${X11_LIBRARIES})
+			add_test(test_glx_alias_prefer_same_name test_glx_alias_prefer_same_name)
+		endif()
+
+		add_executable(test_glx_beginend ${GLX_TESTS} "${PROJECT_SOURCE_DIR}/test/glx_beginend.c")
+		target_link_libraries(test_glx_beginend epoxy ${OPENGL_gl_LIBRARY} ${X11_LIBRARIES})
+		add_test(test_glx_beginend test_glx_beginend)
+
+		if(!APPLE)
+			add_executable(test_glx_gles2 ${GLX_TESTS} "${PROJECT_SOURCE_DIR}/test/glx_gles2.c" "${PROJECT_SOURCE_DIR}/test/dlwrap.c" "${PROJECT_SOURCE_DIR}/test/dlwrap.h")
+			set_target_properties(test_glx_gles2 PROPERTIES LINK_FLAGS "-rdynamic")
+			target_link_libraries(test_glx_gles2 epoxy ${CMAKE_DL_LIBS} ${X11_LIBRARIES})
+			add_test(test_glx_gles2 test_glx_gles2)
+		endif()
+
+		add_executable(test_glx_public_api ${GLX_TESTS} "${PROJECT_SOURCE_DIR}/test/glx_public_api.c")
+		target_link_libraries(test_glx_public_api epoxy ${X11_LIBRARIES})
+		add_test(test_glx_public_api test_glx_public_api)
+
+		add_executable(test_glx_public_api_core ${GLX_TESTS} "${PROJECT_SOURCE_DIR}/test/glx_public_api_core.c")
+		target_link_libraries(test_glx_public_api_core epoxy ${X11_LIBRARIES})
+		add_test(test_glx_public_api_core test_glx_public_api_core)
+
+		add_executable(test_glx_getprocaddress_nocontext ${GLX_TESTS} "${PROJECT_SOURCE_DIR}/test/glx_glxgetprocaddress_nocontext.c")
+		target_link_libraries(test_glx_getprocaddress_nocontext epoxy ${X11_LIBRARIES})
+		add_test(test_glx_getprocaddress_nocontext test_glx_getprocaddress_nocontext)
+
+		add_executable(test_glx_has_extension_nocontext ${GLX_TESTS} "${PROJECT_SOURCE_DIR}/test/glx_has_extension_nocontext.c")
+		target_link_libraries(test_glx_has_extension_nocontext epoxy ${X11_LIBRARIES})
+		add_test(test_glx_has_extension_nocontext test_glx_has_extension_nocontext)
+
+		if(BUILD_SHARED_LIBS)
+			add_executable(test_glx_shared_znow ${GLX_TESTS} "${PROJECT_SOURCE_DIR}/test/glx_static.c")
+			set_target_properties(test_glx_shared_znow PROPERTIES LINK_FLAGS "-Wl,-z,now")
+			target_link_libraries(test_glx_shared_znow epoxy ${CMAKE_DL_LIBS} ${X11_LIBRARIES})
+			add_test(test_glx_shared_znow test_glx_shared_znow)
+		else()
+			add_executable(test_glx_static ${GLX_TESTS} "${PROJECT_SOURCE_DIR}/test/glx_static.c")
+			set_target_properties(test_glx_static PROPERTIES COMPILE_FLAGS "-DNEEDS_TO_BE_STATIC")
+			target_link_libraries(test_glx_static epoxy ${CMAKE_DL_LIBS} ${X11_LIBRARIES})
+			add_test(test_glx_static test_glx_static)
+		endif()
+	endif()
+
 	add_executable(test_headerguards "${PROJECT_SOURCE_DIR}/test/headerguards.c")
 	target_link_libraries(test_headerguards epoxy)
 	add_test(test_headerguards test_headerguards)
+
+	add_executable(test_miscdefines "${PROJECT_SOURCE_DIR}/test/miscdefines.c")
+	target_link_libraries(test_miscdefines epoxy)
+	add_test(test_miscdefines test_miscdefines)
 
 	if(HAVE_KHRPLATFORM_H)
 		add_executable(test_khronos_typedefs "${PROJECT_SOURCE_DIR}/test/khronos_typedefs.h" "${PROJECT_SOURCE_DIR}/test/khronos_typedefs.c" "${PROJECT_SOURCE_DIR}/test/khronos_typedefs_nonepoxy.c")
@@ -236,17 +347,15 @@ if(EPOXY_BUILD_TESTS)
 		add_test(test_khronos_typedefs test_khronos_typedefs)
 	endif()
 
-	add_executable(test_miscdefines "${PROJECT_SOURCE_DIR}/test/miscdefines.c")
-	target_link_libraries(test_miscdefines epoxy)
-	add_test(test_miscdefines test_miscdefines)
-
 	if(_EPOXY_WGL)
 		add_executable(test_wgl_core_and_exts ${WGL_TESTS} "${PROJECT_SOURCE_DIR}/test/wgl_core_and_exts.c")
 		target_link_libraries(test_wgl_core_and_exts epoxy)
 		add_test(test_wgl_core_and_exts test_wgl_core_and_exts)
+
 		add_executable(test_wgl_per_context_funcptrs ${WGL_TESTS} "${PROJECT_SOURCE_DIR}/test/wgl_per_context_funcptrs.c")
 		target_link_libraries(test_wgl_per_context_funcptrs epoxy)
 		add_test(test_wgl_per_context_funcptrs test_wgl_per_context_funcptrs)
+
 		add_executable(test_wgl_usefontbitmaps ${WGL_TESTS} "${PROJECT_SOURCE_DIR}/test/wgl_usefontbitmaps.c")
 		target_link_libraries(test_wgl_usefontbitmaps epoxy)
 		add_test(test_wgl_usefontbitmaps test_wgl_usefontbitmaps)
