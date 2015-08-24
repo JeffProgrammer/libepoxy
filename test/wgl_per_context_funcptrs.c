@@ -35,7 +35,6 @@
  * regardless.
  */
 
-#include "epoxy_config.h"
 #include <stdio.h>
 #include <assert.h>
 

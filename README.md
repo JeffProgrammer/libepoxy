@@ -28,7 +28,8 @@ Building
 
 Building with CMake is tested to work with the following configurations:
 
-* OSX 10.9 using LLVM 6.1.0 (Xcode)
+* Kubuntu Linux 15.04 using GCC 4.9.2
+* MacOSX 10.9 using LLVM/Clang 6.1.0
 * Windows 8.1 using Visual C++ 2013
 * Windows 8.1 using MinGW GCC 5.1.0
 
