@@ -76,12 +76,14 @@ core
 #
 #		Edit the following section as needed
 # For example, !report.pc overrides *.pc. See 'man gitignore'
-# 
+#
 
+.directory
 *.opensdf
 *.sdf
 *.suo
 *.user
+build
 VC12
 
 configure.lineno
