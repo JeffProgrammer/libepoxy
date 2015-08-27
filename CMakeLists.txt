@@ -54,20 +54,19 @@ else()
 
 	add_definitions(-Wall)
 
-	set(CMAKE_REQUIRED_FLAGS "-std=gnu11")
-	check_c_compiler_flag("" _EPOXY_HAS_GNU11)
+	set(OLD_CMAKE_REQUIRED_FLAGS ${CMAKE_REQUIRED_FLAGS})
+
+	check_c_compiler_flag("-std=gnu11" _EPOXY_HAS_GNU11)
 	if (_EPOXY_HAS_GNU11)
 		add_definitions(-std=gnu11)
 	else()
-		set(CMAKE_REQUIRED_FLAGS "-std=gnu99")
-		check_c_compiler_flag("" _EPOXY_HAS_GNU99)
+		check_c_compiler_flag("-std=gnu99" _EPOXY_HAS_GNU99)
 		if (_EPOXY_HAS_GNU99)
 			add_definitions(-std=gnu99)
 		endif()
 	endif()
 
-	set(CMAKE_REQUIRED_FLAGS "-Wno-int-conversion")
-	check_c_compiler_flag("" _EPOXY_HAS_NOINTCONVERSION)
+	check_c_compiler_flag("-Wno-int-conversion" _EPOXY_HAS_NOINTCONVERSION)
 	if(_EPOXY_HAS_NOINTCONVERSION)
 		add_definitions(-Wno-int-conversion)
 	endif()
@@ -107,6 +106,8 @@ else()
 			set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--high-entropy-va ${CMAKE_SHARED_LINKER_FLAGS}")
 		endif()
 	endif()
+	
+	set(CMAKE_REQUIRED_FLAGS ${OLD_CMAKE_REQUIRED_FLAGS})
 endif()
 
 #
@@ -228,13 +229,11 @@ endif()
 # Library Target
 #
 
-set(EPOXY_LIB_NAME epoxy1)
+set(EPOXY_LIB_NAME epoxy_static)
 set(EPOXY_LIB_TYPE STATIC)
 if (BUILD_SHARED_LIBS)
 	set(EPOXY_LIB_TYPE SHARED)
-	if (UNIX)
-		set(EPOXY_LIB_NAME epoxy)
-	endif()
+	set(EPOXY_LIB_NAME epoxy)
 endif()
 
 add_library(epoxy ${EPOXY_LIB_TYPE} ${GL_SOURCE} ${GL_HEADERS})
