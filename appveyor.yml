@@ -11,11 +11,9 @@ build_script:
 - cd build-dll
 - cmake -G "Visual Studio 12 2013 Win64" -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%\output" ..
 - msbuild INSTALL.vcxproj /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-- msbuild RUN_TESTS.vcxproj /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 - cd ..\build-lib
 - cmake -G "Visual Studio 12 2013 Win64" -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%\output" ..
 - msbuild INSTALL.vcxproj /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-- msbuild RUN_TESTS.vcxproj /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 artifacts:
 - path: .\output\
   name: epoxy-vc12-x64

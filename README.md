@@ -1,3 +1,6 @@
+Epoxy
+=====
+
 Epoxy is a library for handling OpenGL function pointer management for
 you.
 
@@ -23,29 +26,17 @@ Features
 * EGL, GLX, and WGL support.
 * Can be mixed with non-epoxy GL usage.
 
-Building
---------
+Building Epoxy
+--------------
 
-Building with CMake is tested to work with the following configurations:
+[![Build Status](https://ci.appveyor.com/api/projects/status/cbxs5gyryjkr9lei?svg=true)](https://ci.appveyor.com/project/Nephatrine/libepoxy) [![Binaries](https://img.shields.io/badge/bin-MSVC%20x64-brightgreen.svg)](https://ci.appveyor.com/project/Nephatrine/libepoxy/build/artifacts)
 
-* Kubuntu Linux 15.04 using GCC 4.9.2
-* MacOSX 10.9 using LLVM/Clang 6.1.0
-* Windows 8.1 using Visual C++ 2013
-* Windows 8.1 using MinGW GCC 5.1.0
+This project uses CMake for its build system so you will definitely need that. The generation scripts also require Python 2.7+.
 
-The standard CMake build instructions should work:
+Using Epoxy
+-----------
 
-    mkdir [build_dir]
-	cd [build_dir]
-    cmake [source_dir]
-    make && make test
-
-There is also a prebuilt VS2013 (VC12) solution now available should you prefer not to use proper build tools.
-
-I've left the original autoconf/automake files intact for now, but they almost certainly do not work due to the other changes I've made. They will be removed as soon as the CMake project builds on Linux and OSX.
-
-Switching your code to using epoxy
-----------------------------------
+If you are using MSVC and a dll build of Epoxy, you will need to ```#define EPOXY_DLL``` prior to including the headers.
 
 It should be as easy as replacing:
 
