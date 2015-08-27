@@ -31,11 +31,7 @@
 #ifdef BUILD_SHARED_LIBS
 #define EPOXY_IMPORTEXPORT __declspec(dllexport)
 #else
-#ifdef EPOXY_USE_DLLIMPORT
-#define EPOXY_IMPORTEXPORT __declspec(dllimport)
-#else
 #define EPOXY_IMPORTEXPORT
-#endif
 #endif
 #elif defined(__APPLE__)
 #define PLATFORM_HAS_EGL 0
@@ -70,11 +66,7 @@
 #    ifdef BUILD_SHARED_LIBS
 #      define PUBLIC __declspec(dllexport)
 #    else
-#      ifdef EPOXY_USE_DLLIMPORT
-#        define PUBLIC __declspec(dllimport)
-#      else
-#        define PUBLIC
-#      endif
+#      define PUBLIC
 #    endif
 #  elif (defined(__GNUC__) && __GNUC__ >= 4) || (defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590))
 #    define PUBLIC __attribute__((visibility("default")))

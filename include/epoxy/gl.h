@@ -77,7 +77,7 @@ extern "C" {
 // "thunk", which is likely to be optimized out anyway if LTO is enabled.
 // The problems it creates with static linking and portability make it arguably
 // not worth the bother. But for those that need it, or think they need it...
-#ifdef EPOXY_USE_DLLIMPORT
+#ifdef EPOXY_DLL
 #define EPOXY_IMPORTEXPORT __declspec(dllimport)
 #else
 #define EPOXY_IMPORTEXPORT
