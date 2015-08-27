@@ -70,7 +70,11 @@
 #    ifdef BUILD_SHARED_LIBS
 #      define PUBLIC __declspec(dllexport)
 #    else
-#      define PUBLIC
+#      ifdef EPOXY_USE_DLLIMPORT
+#        define PUBLIC __declspec(dllimport)
+#      else
+#        define PUBLIC
+#      endif
 #    endif
 #  elif (defined(__GNUC__) && __GNUC__ >= 4) || (defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590))
 #    define PUBLIC __attribute__((visibility("default")))
