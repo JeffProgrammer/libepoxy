@@ -31,7 +31,11 @@
 #ifdef BUILD_SHARED_LIBS
 #define EPOXY_IMPORTEXPORT __declspec(dllexport)
 #else
+#ifdef EPOXY_USE_DLLIMPORT
+#define EPOXY_IMPORTEXPORT __declspec(dllimport)
+#else
 #define EPOXY_IMPORTEXPORT
+#endif
 #endif
 #elif defined(__APPLE__)
 #define PLATFORM_HAS_EGL 0
