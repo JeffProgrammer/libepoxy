@@ -89,7 +89,6 @@ epoxy_handle_external_wglMakeCurrent(void)
     }
 }
 
-#ifdef BUILD_SHARED_LIBS
 /**
  * This global symbol is apparently looked up by Windows when loading
  * a DLL, but it doesn't declare the prototype.
@@ -141,7 +140,29 @@ DllMain(HINSTANCE dll, DWORD reason, LPVOID reserved)
 
     return TRUE;
 }
+
+#ifndef BUILD_SHARED_LIBS
+#ifdef __GNUC__
+	PIMAGE_TLS_CALLBACK dllmain_callback __attribute__((section(".CRT$XLB"))) = (PIMAGE_TLS_CALLBACK)DllMain;
 #else
+#	ifdef _WIN64
+#		pragma comment(linker, "/INCLUDE:_tls_used")
+#		pragma comment(linker, "/INCLUDE:dllmain_callback")
+#		pragma const_seg(".CRT$XLB")
+		extern const PIMAGE_TLS_CALLBACK dllmain_callback;
+		const PIMAGE_TLS_CALLBACK dllmain_callback = DllMain;
+#		pragma const_seg()
+#	else
+#		pragma comment(linker, "/INCLUDE:__tls_used")
+#		pragma comment(linker, "/INCLUDE:_dllmain_callback")
+#		pragma data_seg(".CRT$XLB")
+		PIMAGE_TLS_CALLBACK dllmain_callback = DllMain;
+#		pragma data_seg()
+#	endif
+#endif
+#endif
+
+#if 0
 void construct_wgl()
 {
 	void *data;

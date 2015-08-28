@@ -199,34 +199,12 @@ static EGLenum
 epoxy_egl_get_current_gl_context_api(void);
 #endif
 
-#if !defined(BUILD_SHARED_LIBS) && PLATFORM_HAS_WGL
-extern void construct_wgl();
-extern void destruct_wgl();
-
-CONSTRUCT (library_init)
-DESTRUCT (library_deinit)
-
-static void
-library_init(void)
-{
-	construct_wgl();
-    library_initialized = true;
-}
-
-static void
-library_deinit(void)
-{
-	destruct_wgl();
-    library_initialized = false;
-}
-#else
 CONSTRUCT (library_init)
 static void
 library_init(void)
 {
     library_initialized = true;
 }
-#endif
 
 static bool
 get_dlopen_handle(void **handle, const char *lib_name, bool exit_on_fail)
