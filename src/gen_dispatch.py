@@ -668,7 +668,6 @@ class Generator(object):
     def write_entrypoint_strings(self):
         self.entrypoint_string_offset = {}
 
-        offset = 0
         self.outln('static const char entrypoint_strings[] = {')
         offset = 0
         for func in self.sorted_functions:
