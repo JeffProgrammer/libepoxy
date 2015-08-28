@@ -162,42 +162,6 @@ DllMain(HINSTANCE dll, DWORD reason, LPVOID reserved)
 #endif
 #endif
 
-#if 0
-void construct_wgl()
-{
-	void *data;
-
-	gl_tls_index = TlsAlloc();
-	if (gl_tls_index == TLS_OUT_OF_INDEXES)
-		return;
-
-	wgl_tls_index = TlsAlloc();
-	if (wgl_tls_index == TLS_OUT_OF_INDEXES)
-		return;
-
-	first_context_current = false;
-
-	data = LocalAlloc(LPTR, gl_tls_size);
-	TlsSetValue(gl_tls_index, data);
-
-	data = LocalAlloc(LPTR, wgl_tls_size);
-	TlsSetValue(wgl_tls_index, data);
-}
-void destruct_wgl()
-{
-    void *data;
-
-	data = TlsGetValue(gl_tls_index);
-	LocalFree(data);
-
-	data = TlsGetValue(wgl_tls_index);
-	LocalFree(data);
-
-	TlsFree(gl_tls_index);
-	TlsFree(wgl_tls_index);
-}
-#endif
-
 WRAPPER_VISIBILITY (BOOL)
 WRAPPER(epoxy_wglMakeCurrent)(HDC hdc, HGLRC hglrc)
 {
