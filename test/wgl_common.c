@@ -21,10 +21,9 @@
  * IN THE SOFTWARE.
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <epoxy/wgl.h>
 #include "wgl_common.h"
+#include <stdlib.h>
+#include <tchar.h>
 
 static int (*test_callback)(HDC hdc);
 
@@ -86,8 +85,8 @@ window_proc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 void
 make_window_and_test(int (*callback)(HDC hdc))
 {
-    const char *class_name = "epoxy";
-    const char *window_name = "epoxy";
+	LPCTSTR class_name = _T("epoxy");
+	LPCTSTR window_name = _T("epoxy");
     int width = 150;
     int height = 150;
     HWND hwnd;

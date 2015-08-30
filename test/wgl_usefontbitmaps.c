@@ -21,10 +21,7 @@
  * IN THE SOFTWARE.
  */
 
-#include <stdio.h>
-
 #include "wgl_common.h"
-#include <epoxy/gl.h>
 
 static int
 test_function(HDC hdc)

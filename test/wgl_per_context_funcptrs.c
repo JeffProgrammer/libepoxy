@@ -35,11 +35,8 @@
  * regardless.
  */
 
-#include <stdio.h>
-#include <assert.h>
-
 #include "wgl_common.h"
-#include <epoxy/gl.h>
+#include <assert.h>
 
 #define CREATESHADER_CTX1_VAL 1001
 #define CREATESHADER_CTX2_VAL 1002

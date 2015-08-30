@@ -357,9 +357,14 @@ if(EPOXY_BUILD_TESTS)
 		target_link_libraries(test_wgl_per_context_funcptrs epoxy)
 		add_test(test_wgl_per_context_funcptrs test_wgl_per_context_funcptrs)
 
-		add_executable(test_wgl_usefontbitmaps ${WGL_TESTS} "${PROJECT_SOURCE_DIR}/test/wgl_usefontbitmaps.c")
-		target_link_libraries(test_wgl_usefontbitmaps epoxy)
-		add_test(test_wgl_usefontbitmaps test_wgl_usefontbitmaps)
+		add_executable(test_wgl_usefontbitmaps_ascii ${WGL_TESTS} "${PROJECT_SOURCE_DIR}/test/wgl_usefontbitmaps.c")
+		target_link_libraries(test_wgl_usefontbitmaps_ascii epoxy)
+		add_test(test_wgl_usefontbitmaps_ascii test_wgl_usefontbitmaps_ascii)
+
+		add_executable(test_wgl_usefontbitmaps_unicode ${WGL_TESTS} "${PROJECT_SOURCE_DIR}/test/wgl_usefontbitmaps.c")
+		set_target_properties(test_wgl_usefontbitmaps_unicode PROPERTIES COMPILE_DEFINITIONS "_UNICODE;UNICODE")
+		target_link_libraries(test_wgl_usefontbitmaps_unicode epoxy)
+		add_test(test_wgl_usefontbitmaps_unicode test_wgl_usefontbitmaps_unicode)
 	endif()
 endif()
 
