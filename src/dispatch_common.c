@@ -618,7 +618,7 @@ epoxy_get_proc_address(const char *name)
 	if (epoxy_current_context_is_egl())
 		return eglGetProcAddress(name);
 #endif
-#ifdef PLATFORM_HAS_WGL
+#if PLATFORM_HAS_WGL
 	void *func = wglGetProcAddress(name);
 	return func  ?  func  :  epoxy_gl_dlsym(name);
 #elif defined(__APPLE__)
