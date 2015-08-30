@@ -118,7 +118,12 @@ find_package(EGL)
 find_package(OpenGL)
 find_package(X11)
 
-if (WIN32 OR MSYS)
+find_path(KHR_INCLUDE_DIR NAMES KHR/khrplatform.h PATHS /opt/vc/include)
+if(NOT KHR_INCLUDE_DIR)
+	set(KHR_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/registry")
+endif()
+
+if(WIN32 OR MSYS)
 	set(_EPOXY_WGL 1)
 endif()
 if(EPOXY_BUILD_EGL AND EGL_FOUND)
@@ -128,16 +133,13 @@ if(EPOXY_BUILD_GLX AND X11_FOUND)
 	set(_EPOXY_GLX 1)
 endif()
 
-include(CheckIncludeFiles)
-check_include_files("KHR/khrplatform.h" HAVE_KHRPLATFORM_H)
-
 file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/include/epoxy")
 file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/src")
 configure_file (
 	"${PROJECT_SOURCE_DIR}/include/epoxy_config.h.in"
 	"${PROJECT_BINARY_DIR}/include/epoxy_config.h"
 )
-include_directories("${PROJECT_BINARY_DIR}/include" "${PROJECT_SOURCE_DIR}/include" "${PROJECT_SOURCE_DIR}/src")
+include_directories("${PROJECT_BINARY_DIR}/include" "${PROJECT_SOURCE_DIR}/include" "${PROJECT_SOURCE_DIR}/src" "${KHR_INCLUDE_DIR}")
 
 #
 # Generated Files
@@ -341,12 +343,6 @@ if(EPOXY_BUILD_TESTS)
 	add_executable(test_miscdefines "${PROJECT_SOURCE_DIR}/test/miscdefines.c")
 	target_link_libraries(test_miscdefines epoxy)
 	add_test(test_miscdefines test_miscdefines)
-
-	if(HAVE_KHRPLATFORM_H)
-		add_executable(test_khronos_typedefs "${PROJECT_SOURCE_DIR}/test/khronos_typedefs.h" "${PROJECT_SOURCE_DIR}/test/khronos_typedefs.c" "${PROJECT_SOURCE_DIR}/test/khronos_typedefs_nonepoxy.c")
-		target_link_libraries(test_khronos_typedefs epoxy)
-		add_test(test_khronos_typedefs test_khronos_typedefs)
-	endif()
 
 	if(_EPOXY_WGL)
 		add_executable(test_wgl_core_and_exts ${WGL_TESTS} "${PROJECT_SOURCE_DIR}/test/wgl_core_and_exts.c")

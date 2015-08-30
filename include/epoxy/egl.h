@@ -37,8 +37,6 @@
 #	define __eglext_h_
 #endif
 
-#include <stdbool.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

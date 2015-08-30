@@ -23,8 +23,9 @@ The libepoxy project code is covered by the MIT license:
  * IN THE SOFTWARE.
  */
 
-The generated code is derived from Khronos's xml files, which appear
-under the following license:
+The files in the registry directory (as well as the code dynamically generated
+from them by gen_dispatch.py) are from the Khronos Group and appear under the
+following license:
 
 /*
  * Copyright (c) 2013 The Khronos Group Inc.

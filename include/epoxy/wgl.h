@@ -45,21 +45,18 @@
 #	define WIN32_LEAN_AND_MEAN 1
 #endif
 
-#include <stdbool.h>
 #include <windows.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-
 #undef wglUseFontBitmaps
 #undef wglUseFontOutlines
 
 #ifdef UNICODE
-#define wglUseFontBitmaps wglUseFontBitmapsW
+#	define wglUseFontBitmaps wglUseFontBitmapsW
 #else
-#define wglUseFontBitmaps wglUseFontBitmapsA
+#	define wglUseFontBitmaps wglUseFontBitmapsA
+#endif
+
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 #include "epoxy/wgl_generated.h"

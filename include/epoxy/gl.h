@@ -48,22 +48,12 @@
 
 #include <stdbool.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#define KHRONOS_SUPPORT_INT64   1
-#define KHRONOS_SUPPORT_FLOAT   1
-#define KHRONOS_APIATTRIBUTES
-
 #ifndef _WIN32
 #	define APIENTRY
 #	define GLAPIENTRY
 #	define EPOXY_IMPORTEXPORT
 #	define EPOXY_CALLSPEC
 #	define GLAPI
-#	define KHRONOS_APIENTRY
-#	define KHRONOS_APICALL
 #else
 #	ifndef APIENTRY
 #		define APIENTRY __stdcall
@@ -84,12 +74,6 @@ extern "C" {
 #	ifndef GLAPI
 #		define GLAPI extern
 #	endif
-#	define KHRONOS_APIENTRY __stdcall
-#	ifdef EPOXY_USE_DLLIMPORT
-#		define KHRONOS_APICALL __declspec(dllimport) __stdcall
-#	else
-#		define KHRONOS_APICALL __stdcall
-#	endif
 #endif /* _WIN32 */
 
 #ifndef APIENTRYP
@@ -97,6 +81,10 @@ extern "C" {
 #endif
 #ifndef GLAPIENTRYP
 #	define GLAPIENTRYP GLAPIENTRY *
+#endif
+
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 #include "epoxy/gl_generated.h"
