@@ -10,7 +10,8 @@ script:
   - mkdir build-lib
   - cd build-dll
   - cmake -DBUILD_SHARED_LIBS=ON ..
-  - make
+  - make && make test
   - cd ../build-lib
   - cmake -DBUILD_SHARED_LIBS=OFF ..
-  - make
+  - make && make test
+  
