@@ -1,12 +1,16 @@
 language: c
 compiler: gcc
+sudo: required
 
+install:
+  - sudo apt-get update
+  - sudo apt-get install libegl1-mesa-dev libgles1-mesa-dev libgles2-mesa-dev
 script:
-- mkdir build-dll
-- mkdir build-lib
-- cd build-dll
-- cmake -DBUILD_SHARED_LIBS=ON ..
-- make
-- cd ../build-lib
-- cmake -DBUILD_SHARED_LIBS=OFF ..
-- make
+  - mkdir build-dll
+  - mkdir build-lib
+  - cd build-dll
+  - cmake -DBUILD_SHARED_LIBS=ON ..
+  - make
+  - cd ../build-lib
+  - cmake -DBUILD_SHARED_LIBS=OFF ..
+  - make
