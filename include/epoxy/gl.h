@@ -30,17 +30,26 @@
 #ifndef EPOXY_GL_H
 #define EPOXY_GL_H
 
+#if    defined(__glplatform_h_)  || defined(__gl_h_)  || defined(__glext_h_)  \
+	|| defined(__gl2platform_h_) || defined(__gl2_h_) || defined(__gl2ext_h_) \
+	|| defined(__gl3platform_h_) || defined(__gl3_h_) || defined(__gl31_h_)
+#	error "epoxy/gl.h" must be included before (or in place of) the desktop OpenGL / OpenGL ES headers.
+#else
+#	define __glplatform_h_
+#	define __gl_h_
+#	define __glext_h_
+#	define __gl2platform_h
+#	define __gl2_h_ 1
+#	define __gl2ext_h_ 1
+#	define __gl3platform_h_
+#	define __gl3_h_ 1
+#	define __gl31_h_ 1
+#endif
+
 #include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
-#endif
-
-#if defined(__gl_h_) || defined(__glext_h_)
-#error epoxy/gl.h must be included before (or in place of) GL/gl.h
-#else
-#define __gl_h_
-#define __glext_h_
 #endif
 
 #define KHRONOS_SUPPORT_INT64   1
@@ -48,61 +57,46 @@ extern "C" {
 #define KHRONOS_APIATTRIBUTES
 
 #ifndef _WIN32
-/* APIENTRY and GLAPIENTRY are not used on Linux or Mac. */
-#define APIENTRY
-#define GLAPIENTRY
-#define EPOXY_IMPORTEXPORT
-#define EPOXY_CALLSPEC
-#define GLAPI
-#define KHRONOS_APIENTRY
-#define KHRONOS_APICALL
-
+#	define APIENTRY
+#	define GLAPIENTRY
+#	define EPOXY_IMPORTEXPORT
+#	define EPOXY_CALLSPEC
+#	define GLAPI
+#	define KHRONOS_APIENTRY
+#	define KHRONOS_APICALL
 #else
-#ifndef APIENTRY
-#define APIENTRY __stdcall
-#endif
-
-#ifndef GLAPIENTRY
-#define GLAPIENTRY APIENTRY
-#endif
-
-#ifndef EPOXY_CALLSPEC
-#define EPOXY_CALLSPEC __stdcall
-#endif
-
-#ifndef EPOXY_IMPORTEXPORT
-// On any reasonably modern compiler and linker, decorating functions with
-// __declspec(dllimport) is completely optional, and only provides a very minor
-// optimization, bypassing a tiny (~2 instructions) and readily pipelinable
-// "thunk", which is likely to be optimized out anyway if LTO is enabled.
-// The problems it creates with static linking and portability make it arguably
-// not worth the bother. But for those that need it, or think they need it...
-#ifdef EPOXY_DLL
-#define EPOXY_IMPORTEXPORT __declspec(dllimport)
-#else
-#define EPOXY_IMPORTEXPORT
-#endif
-#endif
-
-#ifndef GLAPI
-#define GLAPI extern
-#endif
-
-#define KHRONOS_APIENTRY __stdcall
-#ifdef EPOXY_USE_DLLIMPORT
-#define KHRONOS_APICALL __declspec(dllimport) __stdcall
-#else
-#define KHRONOS_APICALL __stdcall
-#endif
-
+#	ifndef APIENTRY
+#		define APIENTRY __stdcall
+#	endif
+#	ifndef GLAPIENTRY
+#		define GLAPIENTRY APIENTRY
+#	endif
+#	ifndef EPOXY_CALLSPEC
+#		define EPOXY_CALLSPEC __stdcall
+#	endif
+#	ifndef EPOXY_IMPORTEXPORT
+#		ifdef EPOXY_DLL
+#			define EPOXY_IMPORTEXPORT __declspec(dllimport)
+#		else
+#			define EPOXY_IMPORTEXPORT
+#		endif
+#	endif
+#	ifndef GLAPI
+#		define GLAPI extern
+#	endif
+#	define KHRONOS_APIENTRY __stdcall
+#	ifdef EPOXY_USE_DLLIMPORT
+#		define KHRONOS_APICALL __declspec(dllimport) __stdcall
+#	else
+#		define KHRONOS_APICALL __stdcall
+#	endif
 #endif /* _WIN32 */
 
 #ifndef APIENTRYP
-#define APIENTRYP APIENTRY *
+#	define APIENTRYP APIENTRY *
 #endif
-
 #ifndef GLAPIENTRYP
-#define GLAPIENTRYP GLAPIENTRY *
+#	define GLAPIENTRYP GLAPIENTRY *
 #endif
 
 #include "epoxy/gl_generated.h"

@@ -30,12 +30,21 @@
 #ifndef EPOXY_WGL_H
 #define EPOXY_WGL_H
 
-// Prevent Duplicate Definition Warnings
-#if defined(APIENTRY) && !defined(WINAPI)
-#undef APIENTRY
+#if defined(__wglxext_h_)
+#	error epoxy/wgl.h must be included before (or in place of) wgl.h
+#else
+#	define __wglxext_h_
 #endif
 
-#define WIN32_LEAN_AND_MEAN
+// Prevent Duplicate Definition Warnings
+#if defined(APIENTRY) && !defined(WINAPI)
+#	undef APIENTRY
+#endif
+
+#ifndef WIN32_LEAN_AND_MEAN
+#	define WIN32_LEAN_AND_MEAN 1
+#endif
+
 #include <stdbool.h>
 #include <windows.h>
 
@@ -46,12 +55,6 @@ extern "C" {
 
 #undef wglUseFontBitmaps
 #undef wglUseFontOutlines
-
-#if defined(__wglxext_h_)
-#error epoxy/wgl.h must be included before (or in place of) wgl.h
-#else
-#define __wglxext_h_
-#endif
 
 #ifdef UNICODE
 #define wglUseFontBitmaps wglUseFontBitmapsW

@@ -22,43 +22,35 @@
  */
 
 #include "epoxy_config.h"
-#include <stdbool.h>
-
-#ifdef _WIN32
-#define PLATFORM_HAS_EGL 0
-#define PLATFORM_HAS_GLX 0
-#define PLATFORM_HAS_WGL BUILD_WGL
-#ifdef BUILD_SHARED_LIBS
-#define EPOXY_IMPORTEXPORT __declspec(dllexport)
-#else
-#define EPOXY_IMPORTEXPORT
-#endif
-#elif defined(__APPLE__)
-#define PLATFORM_HAS_EGL 0
-#define PLATFORM_HAS_GLX 0
-#define PLATFORM_HAS_WGL 0
-#define EPOXY_IMPORTEXPORT
-#elif defined(ANDROID)
-#define PLATFORM_HAS_EGL BUILD_EGL
-#define PLATFORM_HAS_GLX 0
-#define PLATFORM_HAS_WGL 0
-#define EPOXY_IMPORTEXPORT
-#else
 #define PLATFORM_HAS_EGL BUILD_EGL
 #define PLATFORM_HAS_GLX BUILD_GLX
-#define PLATFORM_HAS_WGL 0
-#define EPOXY_IMPORTEXPORT
+#define PLATFORM_HAS_WGL BUILD_WGL
+
+#ifdef _WIN32
+#	ifndef WIN32_LEAN_AND_MEAN
+#		define WIN32_LEAN_AND_MEAN 1
+#	endif
+#	include <windows.h>
+#	ifdef BUILD_SHARED_LIBS
+#		define EPOXY_IMPORTEXPORT __declspec(dllexport)
+#	endif
+#endif
+#ifndef EPOXY_IMPORTEXPORT
+#	define EPOXY_IMPORTEXPORT
 #endif
 
 #include "epoxy/gl.h"
+
 #if PLATFORM_HAS_GLX
-#include "epoxy/glx.h"
+#	include "epoxy/glx.h"
 #endif
+
 #if PLATFORM_HAS_EGL
-#include "epoxy/egl.h"
+#	include "epoxy/egl.h"
 #endif
+
 #if PLATFORM_HAS_WGL
-#include "epoxy/wgl.h"
+#	include "epoxy/wgl.h"
 #endif
 
 #ifndef PUBLIC
