@@ -29,7 +29,9 @@ Features
 Building Epoxy
 --------------
 
-[![Build Status](https://ci.appveyor.com/api/projects/status/cbxs5gyryjkr9lei?svg=true)](https://ci.appveyor.com/project/Nephatrine/libepoxy) [![Binaries](https://img.shields.io/badge/bin-MSVC%20x64-brightgreen.svg)](https://ci.appveyor.com/project/Nephatrine/libepoxy/build/artifacts)
+|  Linux/GCC  |  Windows/MSVC  |  Binaries  |
+| :---------: | :------------: | :--------: |
+|  [![Linux Status](https://travis-ci.org/Nephatrine/libepoxy.svg?branch=master)](https://travis-ci.org/Nephatrine/libepoxy)  |  [![Windows Build Status](https://ci.appveyor.com/api/projects/status/cbxs5gyryjkr9lei?svg=true)](https://ci.appveyor.com/project/Nephatrine/libepoxy)  |  [![Binaries](https://img.shields.io/badge/bin-MSVC%20x64-brightgreen.svg)](https://ci.appveyor.com/project/Nephatrine/libepoxy/build/artifacts)
 
 This project uses CMake for its build system so you will definitely need that. The generation scripts also require Python 2.7+.
 
