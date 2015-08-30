@@ -29,9 +29,8 @@ Features
 Building Epoxy
 --------------
 
-You will need the following tools at a minimum.
+You will need the following tools at a minimum in addition to the standard compilers for your system (GCC, Xcode/Clang, MinGW, MSVC, etc.).
 
-* GCC-Compatible Compiler **OR** Visual C++ 2013+
 * Python 2.7+
 * CMake 2.8+
 
