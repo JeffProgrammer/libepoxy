@@ -110,6 +110,7 @@ endif()
 # Build Configuration
 #
 
+set(_EPOXY_INSTALL_KHR 0)
 set(_EPOXY_EGL 0)
 set(_EPOXY_GLX 0)
 set(_EPOXY_WGL 0)
@@ -119,14 +120,16 @@ find_package(OpenGL)
 find_package(X11)
 
 find_path(KHR_INCLUDE_DIR NAMES KHR/khrplatform.h PATHS /opt/vc/include)
+mark_as_advanced(KHR_INCLUDE_DIR)
 if(NOT KHR_INCLUDE_DIR)
 	set(KHR_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/registry")
+	set(_EPOXY_INSTALL_KHR 1)
 endif()
 
 if(WIN32 OR MSYS)
 	set(_EPOXY_WGL 1)
 endif()
-if(EPOXY_BUILD_EGL AND EGL_FOUND)
+if(EPOXY_BUILD_EGL AND (EGL_LIBRARY OR EGL_INCLUDE_DIR))
 	set(_EPOXY_EGL 1)
 endif()
 if(EPOXY_BUILD_GLX AND X11_FOUND)
@@ -145,29 +148,36 @@ include_directories("${PROJECT_BINARY_DIR}/include" "${PROJECT_SOURCE_DIR}/inclu
 # Generated Files
 #
 
+find_package(PythonInterp)
+if(PYTHONINTERP_FOUND)
+	set(PYTHON_COMMAND ${PYTHON_EXECUTABLE})
+else()
+	set(PYTHON_COMMAND python)
+endif()
+
 add_custom_command (
 	OUTPUT
 		${PROJECT_BINARY_DIR}/include/epoxy/egl_generated.h
 		${PROJECT_BINARY_DIR}/src/egl_generated_dispatch.c
-	COMMAND python ${PROJECT_SOURCE_DIR}/src/gen_dispatch.py --dir ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/registry/egl.xml
+	COMMAND ${PYTHON_COMMAND} ${PROJECT_SOURCE_DIR}/src/gen_dispatch.py --dir ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/registry/egl.xml
 )
 add_custom_command (
 	OUTPUT
 		${PROJECT_BINARY_DIR}/include/epoxy/gl_generated.h
 		${PROJECT_BINARY_DIR}/src/gl_generated_dispatch.c
-	COMMAND python ${PROJECT_SOURCE_DIR}/src/gen_dispatch.py --dir ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/registry/gl.xml
+	COMMAND ${PYTHON_COMMAND} ${PROJECT_SOURCE_DIR}/src/gen_dispatch.py --dir ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/registry/gl.xml
 )
 add_custom_command (
 	OUTPUT
 		${PROJECT_BINARY_DIR}/include/epoxy/glx_generated.h
 		${PROJECT_BINARY_DIR}/src/glx_generated_dispatch.c
-	COMMAND python ${PROJECT_SOURCE_DIR}/src/gen_dispatch.py --dir ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/registry/glx.xml
+	COMMAND ${PYTHON_COMMAND} ${PROJECT_SOURCE_DIR}/src/gen_dispatch.py --dir ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/registry/glx.xml
 )
 add_custom_command (
 	OUTPUT
 		${PROJECT_BINARY_DIR}/include/epoxy/wgl_generated.h
 		${PROJECT_BINARY_DIR}/src/wgl_generated_dispatch.c
-	COMMAND python ${PROJECT_SOURCE_DIR}/src/gen_dispatch.py --dir ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/registry/wgl.xml
+	COMMAND ${PYTHON_COMMAND} ${PROJECT_SOURCE_DIR}/src/gen_dispatch.py --dir ${PROJECT_BINARY_DIR} ${PROJECT_SOURCE_DIR}/registry/wgl.xml
 )
 
 set(EGL_HEADERS
@@ -376,3 +386,7 @@ install(TARGETS epoxy
 
 install(DIRECTORY "${PROJECT_BINARY_DIR}/include/epoxy" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(DIRECTORY "${PROJECT_SOURCE_DIR}/include/epoxy" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+if(_EPOXY_INSTALL_KHR)
+	install(DIRECTORY "${PROJECT_SOURCE_DIR}/registry/KHR" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+endif()
