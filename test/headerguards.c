@@ -23,6 +23,7 @@
 
 #include "epoxy_config.h"
 #include <epoxy/gl.h>
+#include <epoxy/gl.h>
 
 #if BUILD_EGL
 #include <epoxy/egl.h>
@@ -34,14 +35,11 @@
 #include <epoxy/glx.h>
 #endif
 
-#if BUILD_EGL
-#include <EGL/egl.h>
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
-#include <EGL/eglext.h>
+#if BUILD_WGL
+#include <epoxy/wgl.h>
+#include <epoxy/wgl.h>
 #endif
 
-#if BUILD_GLX
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #include <OpenGL/glext.h>
@@ -49,8 +47,22 @@
 #include <GL/gl.h>
 #include <GL/glext.h>
 #endif
+
+#if BUILD_EGL
+#include <EGL/egl.h>
+#include <EGL/egl.h>
+#include <EGL/eglext.h>
+#include <EGL/eglext.h>
+#endif
+
+#if BUILD_GLX
 #include <GL/glx.h>
 #include <GL/glxext.h>
+#endif
+
+#if BUILD_WGL
+#include <windows.h>
+#include <GL/wglext.h>
 #endif
 
 int main(int argc, char **argv)
