@@ -26,43 +26,51 @@
 #include <epoxy/gl.h>
 
 #if BUILD_EGL
-#include <epoxy/egl.h>
-#include <epoxy/egl.h>
+#	include <epoxy/egl.h>
+#	include <epoxy/egl.h>
 #endif
 
 #if BUILD_GLX
-#include <epoxy/glx.h>
-#include <epoxy/glx.h>
+#	include <epoxy/glx.h>
+#	include <epoxy/glx.h>
 #endif
 
 #if BUILD_WGL
-#include <epoxy/wgl.h>
-#include <epoxy/wgl.h>
+#	include <epoxy/wgl.h>
+#	include <epoxy/wgl.h>
 #endif
 
 #ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glext.h>
+#	include <OpenGL/gl.h>
+#	ifndef NO_GLEXT_H
+#		include <OpenGL/glext.h>
+#	endif
 #else
-#include <GL/gl.h>
-#include <GL/glext.h>
+#	include <GL/gl.h>
+#	ifndef NO_GLEXT_H
+#		include <GL/glext.h>
+#	endif
 #endif
 
 #if BUILD_EGL
-#include <EGL/egl.h>
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
-#include <EGL/eglext.h>
+#	include <EGL/egl.h>
+#	ifndef NO_GLEXT_H
+#		include <EGL/eglext.h>
+#	endif
 #endif
 
 #if BUILD_GLX
-#include <GL/glx.h>
-#include <GL/glxext.h>
+#	include <GL/glx.h>
+#	ifndef NO_GLEXT_H
+#		include <GL/glxext.h>
+#	endif
 #endif
 
 #if BUILD_WGL
-#include <windows.h>
-#include <GL/wglext.h>
+#	include <windows.h>
+#	ifndef NO_GLEXT_H
+#		include <GL/wglext.h>
+#	endif
 #endif
 
 int main(int argc, char **argv)
