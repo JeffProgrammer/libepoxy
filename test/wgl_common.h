@@ -21,7 +21,6 @@
  * IN THE SOFTWARE.
  */
 
-#include <epoxy/gl.h>
 #include <epoxy/wgl.h>
 #include <stdio.h>
 
