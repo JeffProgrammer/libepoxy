@@ -252,6 +252,9 @@ if (BUILD_SHARED_LIBS)
 endif()
 
 add_library(epoxy ${EPOXY_LIB_TYPE} ${GL_SOURCE} ${GL_HEADERS})
+if (BUILD_SHARED_LIBS AND NOT WIN32 AND NOT MSYS)
+	target_link_libraries(epoxy ${CMAKE_DL_LIBS})
+endif()
 set_target_properties(epoxy PROPERTIES
 		OUTPUT_NAME "${EPOXY_LIB_NAME}"
 		VERSION "1.3.1"
