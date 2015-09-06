@@ -16,7 +16,7 @@ endif()
 # Project Definition
 #
 
-project(epoxy LANGUAGES C)
+project(epoxy C)
 set(EPOXY_TARGET_NAME epoxy)
 set(TARGET_VER 1.3.1_neph-git)
 set(TARGET_ABI_VER 0)
