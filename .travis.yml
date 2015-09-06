@@ -2,11 +2,7 @@ language: c
 compiler: gcc
 
 script:
-  - mkdir build-dll
-  - mkdir build-lib
-  - cd build-dll
-  - cmake -DBUILD_SHARED_LIBS=ON ..
-  - make
-  - cd ../build-lib
-  - cmake -DBUILD_SHARED_LIBS=OFF ..
+  - mkdir build
+  - cd build
+  - cmake ..
   - make

@@ -198,7 +198,7 @@ static bool library_initialized;
 
 static bool epoxy_current_context_is_egl(void);
 
-#if PLATFORM_HAS_EGL
+#ifdef BUILD_EGL
 static EGLenum
 epoxy_egl_get_current_gl_context_api(void);
 #endif
@@ -274,7 +274,7 @@ epoxy_is_desktop_gl(void)
     const char *es_prefix = "OpenGL ES";
     const char *version;
 
-#if PLATFORM_HAS_EGL
+#ifdef BUILD_EGL
     /* PowerVR's OpenGL ES implementation (and perhaps other) don't
      * comply with the standard, which states that
      * "glGetString(GL_VERSION)" should return a string starting with
@@ -398,7 +398,7 @@ epoxy_internal_has_gl_extension(const char *ext, bool invalid_op_mode)
 static bool
 epoxy_current_context_is_egl(void)
 {
-#if PLATFORM_HAS_EGL
+#ifdef BUILD_EGL
 	if (get_dlopen_handle(&api.egl_handle, EGL_LIB, false) && epoxy_egl_get_current_gl_context_api() != EGL_NONE)
 		return true;
 #endif
@@ -527,7 +527,7 @@ epoxy_get_core_proc_address(const char *name, int core_version)
     }
 }
 
-#if PLATFORM_HAS_EGL
+#ifdef BUILD_EGL
 static EGLenum
 epoxy_egl_get_current_gl_context_api(void)
 {
@@ -557,7 +557,7 @@ epoxy_egl_get_current_gl_context_api(void)
 
     return EGL_NONE;
 }
-#endif /* PLATFORM_HAS_EGL */
+#endif
 
 /**
  * Performs the dlsym() for the core GL 1.0 functions that we use for
@@ -575,7 +575,7 @@ epoxy_get_bootstrap_proc_address(const char *name)
     /* If we already have a library that links to libglapi loaded,
      * use that.
      */
-#if PLATFORM_HAS_GLX
+#ifdef BUILD_GLX
     if (api.glx_handle && glXGetCurrentContext())
         return epoxy_gl_dlsym(name);
 #endif
@@ -585,7 +585,7 @@ epoxy_get_bootstrap_proc_address(const char *name)
      * since future calls will also use that API (this prevents a
      * non-X11 ES2 context from loading a bunch of X11 junk).
      */
-#if PLATFORM_HAS_EGL
+#ifdef BUILD_EGL
     get_dlopen_handle(&api.egl_handle, EGL_LIB, false);
     if (api.egl_handle) {
         switch (epoxy_egl_get_current_gl_context_api()) {
@@ -605,7 +605,7 @@ epoxy_get_bootstrap_proc_address(const char *name)
 			}
         }
     }
-#endif /* PLATFORM_HAS_EGL */
+#endif
 
     /* Fall back to GLX */
     return epoxy_gl_dlsym(name);
@@ -614,16 +614,16 @@ epoxy_get_bootstrap_proc_address(const char *name)
 void *
 epoxy_get_proc_address(const char *name)
 {
-#if PLATFORM_HAS_EGL
+#if defined(BUILD_EGL)
 	if (epoxy_current_context_is_egl())
 		return eglGetProcAddress(name);
 #endif
-#if PLATFORM_HAS_WGL
+#if defined(BUILD_WGL)
 	void *func = wglGetProcAddress(name);
 	return func  ?  func  :  epoxy_gl_dlsym(name);
 #elif defined(__APPLE__)
     return epoxy_gl_dlsym(name);
-#elif PLATFORM_HAS_GLX
+#elif defined(BUILD_GLX)
 	return glXGetProcAddressARB((const GLubyte *)name);
 #else
 	return NULL;

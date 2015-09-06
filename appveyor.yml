@@ -5,15 +5,18 @@ os: Windows Server 2012 R2
 shallow_clone: true
 build_script:
 - cd "%APPVEYOR_BUILD_FOLDER%"
-- mkdir build-dll
-- mkdir build-lib
-- mkdir output
-- cd build-dll
-- cmake -G "Visual Studio 12 2013 Win64" -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%\output" ..
-- msbuild INSTALL.vcxproj /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-- cd ..\build-lib
-- cmake -G "Visual Studio 12 2013 Win64" -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%\output" ..
-- msbuild INSTALL.vcxproj /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+- mkdir build64
+- mkdir build32
+- mkdir output64
+- mkdir output32
+- cd build32
+- cmake -G "Visual Studio 12 2013" -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%\output32" ..
+- msbuild INSTALL.vcxproj /p:Configuration=RelWithDebInfo /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+- cd ..\build64
+- cmake -G "Visual Studio 12 2013 Win64" -DCMAKE_INSTALL_PREFIX="%APPVEYOR_BUILD_FOLDER%\output64" ..
+- msbuild INSTALL.vcxproj /p:Configuration=RelWithDebInfo /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 artifacts:
-- path: .\output\
-  name: epoxy-vc12-x64
+- path: .\output32\
+  name: epoxy-vc12-x86_64
+- path: .\output64\
+  name: epoxy-vc12-x86
