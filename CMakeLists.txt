@@ -302,6 +302,70 @@ foreach(EPOXY_TARGET_TYPE ${EPOXY_TARGET_TYPES})
 endforeach()
 
 #
+# Tests
+#
+
+if(EPOXY_BUILD_TESTS)
+	enable_testing()
+	foreach(EPOXY_TARGET_TYPE ${EPOXY_TARGET_TYPES})
+		add_executable(test_${EPOXY_TARGET_TYPE}_headerguards "test/headerguards.c")
+		target_link_libraries(test_${EPOXY_TARGET_TYPE}_headerguards ${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE})
+		add_test(NAME "test_${EPOXY_TARGET_TYPE}_headerguards" COMMAND "test_${EPOXY_TARGET_TYPE}_headerguards")
+
+		add_executable(test_${EPOXY_TARGET_TYPE}_miscdefines "test/miscdefines.c")
+		target_link_libraries(test_${EPOXY_TARGET_TYPE}_miscdefines ${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE})
+		add_test(NAME "test_${EPOXY_TARGET_TYPE}_miscdefines" COMMAND "test_${EPOXY_TARGET_TYPE}_miscdefines")
+
+		if(EPOXY_SUPPORT_GLX AND X11_FOUND)
+			set(DL_TEST_COMMON "test/dlwrap.c" "test/dlwrap.h")
+			set(GLX_TEST_COMMON "test/glx_common.c" "test/glx_common.h")
+
+			if(NOT APPLE)
+				add_executable(test_glx_${EPOXY_TARGET_TYPE}_alias_prefer_same ${DL_TESTS} ${GLX_TESTS} "test/glx_alias_prefer_same_name.c")
+				set_target_properties(test_glx_${EPOXY_TARGET_TYPE}_alias_prefer_same PROPERTIES LINK_FLAGS "-rdynamic")
+				target_link_libraries(test_glx_${EPOXY_TARGET_TYPE}_alias_prefer_same "${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE}" ${CMAKE_DL_LIBS} ${X11_LIBRARIES})
+				add_test(NAME "test_glx_${EPOXY_TARGET_TYPE}_alias_prefer_same" COMMAND "test_glx_${EPOXY_TARGET_TYPE}_alias_prefer_same")
+			endif()
+
+			if(OPENGL_FOUND)
+				add_executable(test_glx_${EPOXY_TARGET_TYPE}_begin_end ${GLX_TESTS} "test/glx_beginend.c")
+				target_link_libraries(test_glx_${EPOXY_TARGET_TYPE}_begin_end "${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE}" ${OPENGL_gl_LIBRARY} ${X11_LIBRARIES})
+				add_test(NAME "test_glx_${EPOXY_TARGET_TYPE}_begin_end" COMMAND "test_glx_${EPOXY_TARGET_TYPE}_begin_end")
+			endif()
+
+			add_executable(test_glx_${EPOXY_TARGET_TYPE}_public_api_compat ${GLX_TESTS} "test/glx_public_api.c")
+			target_link_libraries(test_glx_${EPOXY_TARGET_TYPE}_public_api_compat "${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE}" ${X11_LIBRARIES})
+			add_test(NAME "test_glx_${EPOXY_TARGET_TYPE}_public_api_compat" COMMAND "test_glx_${EPOXY_TARGET_TYPE}_public_api_compat")
+			
+			add_executable(test_glx_${EPOXY_TARGET_TYPE}_public_api_core ${GLX_TESTS} "test/glx_public_api_core.c")
+			target_link_libraries(test_glx_${EPOXY_TARGET_TYPE}_public_api_core "${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE}" ${X11_LIBRARIES})
+			add_test(NAME "test_glx_${EPOXY_TARGET_TYPE}_public_api_core" COMMAND "test_glx_${EPOXY_TARGET_TYPE}_public_api_core")
+		endif()
+		
+		if (EPOXY_SUPPORT_WGL)
+			set(WGL_TEST_COMMON "test/wgl_common.c" "test/wgl_common.h")
+
+			add_executable(test_wgl_${EPOXY_TARGET_TYPE}_core_and_exts ${WGL_TEST_COMMON} "test/wgl_core_and_exts.c")
+			target_link_libraries(test_wgl_${EPOXY_TARGET_TYPE}_core_and_exts "${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE}")
+			add_test(NAME "test_wgl_${EPOXY_TARGET_TYPE}_core_and_exts" COMMAND "test_wgl_${EPOXY_TARGET_TYPE}_core_and_exts")
+
+			add_executable(test_wgl_${EPOXY_TARGET_TYPE}_context_funcptrs ${WGL_TEST_COMMON} "test/wgl_per_context_funcptrs.c")
+			target_link_libraries(test_wgl_${EPOXY_TARGET_TYPE}_context_funcptrs "${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE}")
+			add_test(NAME "test_wgl_${EPOXY_TARGET_TYPE}_context_funcptrs" COMMAND "test_wgl_${EPOXY_TARGET_TYPE}_context_funcptrs")
+
+			add_executable(test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_ascii ${WGL_TEST_COMMON} "test/wgl_usefontbitmaps.c")
+			target_link_libraries(test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_ascii "${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE}")
+			add_test(NAME "test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_ascii" COMMAND "test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_ascii")
+
+			add_executable(test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_wide ${WGL_TEST_COMMON} "test/wgl_usefontbitmaps.c")
+			set_target_properties(test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_wide PROPERTIES COMPILE_DEFINITIONS "_UNICODE;UNICODE")
+			target_link_libraries(test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_wide "${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE}")
+			add_test(NAME "test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_wide" COMMAND "test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_wide")
+		endif ()
+	endforeach()
+endif()
+
+#
 # Install
 #
 

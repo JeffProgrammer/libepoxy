@@ -21,56 +21,30 @@
  * IN THE SOFTWARE.
  */
 
-#include "epoxy_config.h"
 #include <epoxy/gl.h>
 #include <epoxy/gl.h>
-
-#if BUILD_EGL
-#	include <epoxy/egl.h>
-#	include <epoxy/egl.h>
-#endif
-
-#if BUILD_GLX
-#	include <epoxy/glx.h>
-#	include <epoxy/glx.h>
-#endif
-
-#if BUILD_WGL
-#	include <epoxy/wgl.h>
-#	include <epoxy/wgl.h>
-#endif
-
 #ifdef __APPLE__
 #	include <OpenGL/gl.h>
-#	ifndef NO_GLEXT_H
-#		include <OpenGL/glext.h>
-#	endif
 #else
 #	include <GL/gl.h>
-#	ifndef NO_GLEXT_H
-#		include <GL/glext.h>
-#	endif
 #endif
 
-#if BUILD_EGL
+#ifdef BUILD_EGL
+#	include <epoxy/egl.h>
+#	include <epoxy/egl.h>
 #	include <EGL/egl.h>
-#	ifndef NO_GLEXT_H
-#		include <EGL/eglext.h>
-#	endif
 #endif
 
-#if BUILD_GLX
+#ifdef BUILD_GLX
+#	include <epoxy/glx.h>
+#	include <epoxy/glx.h>
 #	include <GL/glx.h>
-#	ifndef NO_GLEXT_H
-#		include <GL/glxext.h>
-#	endif
 #endif
 
-#if BUILD_WGL
+#ifdef BUILD_WGL
+#	include <epoxy/wgl.h>
+#	include <epoxy/wgl.h>
 #	include <windows.h>
-#	ifndef NO_GLEXT_H
-#		include <GL/wglext.h>
-#	endif
 #endif
 
 int main(int argc, char **argv)

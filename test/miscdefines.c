@@ -21,15 +21,18 @@
  * IN THE SOFTWARE.
  */
 
-#include "epoxy_config.h"
 #include <epoxy/gl.h>
 
-#if BUILD_EGL
-#include <epoxy/egl.h>
+#ifdef BUILD_EGL
+#	include <epoxy/egl.h>
 #endif
 
-#if BUILD_GLX
-#include <epoxy/glx.h>
+#ifdef BUILD_GLX
+#	include <epoxy/glx.h>
+#endif
+
+#ifdef BUILD_WGL
+#	include <epoxy/wgl.h>
 #endif
 
 #if GL_VERSION_3_2 != 1
