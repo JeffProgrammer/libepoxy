@@ -3,7 +3,7 @@ Epoxy
 
 |  Linux/GCC  |  Windows/MSVC  |  Binaries  |
 | :---------: | :------------: | :--------: |
-|  [![Linux Status](https://travis-ci.org/Nephatrine/libepoxy.svg?branch=master)](https://travis-ci.org/Nephatrine/libepoxy)  |  [![Windows Build Status](https://ci.appveyor.com/api/projects/status/cbxs5gyryjkr9lei?svg=true)](https://ci.appveyor.com/project/Nephatrine/libepoxy)  |  [![Binaries](https://img.shields.io/badge/bin-MSVC%20x64-brightgreen.svg)](https://ci.appveyor.com/project/Nephatrine/libepoxy/build/artifacts)
+|  [![Linux Status](https://travis-ci.org/Nephatrine/libepoxy.svg?branch=master)](https://travis-ci.org/Nephatrine/libepoxy)  |  [![Windows Build Status](https://ci.appveyor.com/api/projects/status/cbxs5gyryjkr9lei?svg=true)](https://ci.appveyor.com/project/Nephatrine/libepoxy)  |  [![Binaries](https://img.shields.io/badge/bin-MS%20VC12-brightgreen.svg)](https://ci.appveyor.com/project/Nephatrine/libepoxy/build/artifacts)
 
 Epoxy is a library for handling OpenGL function pointer management for you.
 

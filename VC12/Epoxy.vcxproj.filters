@@ -22,9 +22,6 @@
     <Text Include="..\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="epoxy_config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\dispatch_common.h">
       <Filter>Header Files</Filter>
     </ClInclude>

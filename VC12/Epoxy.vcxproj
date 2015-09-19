@@ -67,24 +67,24 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)VC12\Lib\</OutDir>
+    <OutDir>$(SolutionDir)VC12\Lib$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)VC12\Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <TargetName>epoxy1d-$(PlatformTarget)</TargetName>
+    <TargetName>epoxy0_static</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>epoxy1d-$(PlatformTarget)</TargetName>
+    <TargetName>epoxy0_static</TargetName>
     <IntDir>$(SolutionDir)VC12\Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)VC12\Lib\</OutDir>
+    <OutDir>$(SolutionDir)VC12\Lib$(PlatformTarget)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)VC12\Lib\</OutDir>
+    <OutDir>$(SolutionDir)VC12\Lib$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)VC12\Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <TargetName>epoxy1-$(PlatformTarget)</TargetName>
+    <TargetName>epoxy0_static</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>epoxy1-$(PlatformTarget)</TargetName>
+    <TargetName>epoxy0_static</TargetName>
     <IntDir>$(SolutionDir)VC12\Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)VC12\Lib\</OutDir>
+    <OutDir>$(SolutionDir)VC12\Lib$(PlatformTarget)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -92,9 +92,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_EPOXY_USE_CONFIG_H;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BUILD_WGL;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\registry;$(ProjectDir)..\src;$(ProjectDir)..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -115,9 +115,9 @@ python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\r
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_EPOXY_USE_CONFIG_H;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BUILD_WGL;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\registry;$(ProjectDir)..\src;$(ProjectDir)..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,9 +140,9 @@ python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\r
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_EPOXY_USE_CONFIG_H;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BUILD_WGL;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\registry;$(ProjectDir)..\src;$(ProjectDir)..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -167,9 +167,9 @@ python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\r
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_EPOXY_USE_CONFIG_H;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BUILD_WGL;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\registry;$(ProjectDir)..\src;$(ProjectDir)..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -194,7 +194,6 @@ python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\r
     <ClInclude Include="..\include\epoxy\gl.h" />
     <ClInclude Include="..\include\epoxy\wgl.h" />
     <ClInclude Include="..\src\dispatch_common.h" />
-    <ClInclude Include="epoxy_config.h" />
     <ClInclude Include="Include\epoxy\gl_generated.h" />
     <ClInclude Include="Include\epoxy\wgl_generated.h" />
   </ItemGroup>
