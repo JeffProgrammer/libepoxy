@@ -270,7 +270,7 @@ if(EPOXY_BUILD_SHARED)
 			SOVERSION "${TARGET_ABI_VER}")
 	endif()
 	set_target_properties("${EPOXY_TARGET_NAME}_shared" PROPERTIES
-		COMPILE_DEFINITIONS "BUILD_SHARED_LIBS;EPOXY_DLL")
+		COMPILE_DEFINITIONS "EPOXY_DLL")
 endif()
 
 if(EPOXY_BUILD_STATIC)
@@ -342,13 +342,13 @@ if(EPOXY_BUILD_TESTS)
 			add_test(NAME "test_glx_${EPOXY_TARGET_TYPE}_public_api_core" COMMAND "test_glx_${EPOXY_TARGET_TYPE}_public_api_core")
 		endif()
 		
-		if (EPOXY_SUPPORT_WGL)
+		if(EPOXY_SUPPORT_WGL)
 			set(WGL_TEST_COMMON "test/wgl_common.c" "test/wgl_common.h")
 
 			add_executable(test_wgl_${EPOXY_TARGET_TYPE}_core_and_exts ${WGL_TEST_COMMON} "test/wgl_core_and_exts.c")
 			target_link_libraries(test_wgl_${EPOXY_TARGET_TYPE}_core_and_exts "${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE}")
 			add_test(NAME "test_wgl_${EPOXY_TARGET_TYPE}_core_and_exts" COMMAND "test_wgl_${EPOXY_TARGET_TYPE}_core_and_exts")
-
+			
 			add_executable(test_wgl_${EPOXY_TARGET_TYPE}_context_funcptrs ${WGL_TEST_COMMON} "test/wgl_per_context_funcptrs.c")
 			target_link_libraries(test_wgl_${EPOXY_TARGET_TYPE}_context_funcptrs "${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE}")
 			add_test(NAME "test_wgl_${EPOXY_TARGET_TYPE}_context_funcptrs" COMMAND "test_wgl_${EPOXY_TARGET_TYPE}_context_funcptrs")
@@ -358,10 +358,23 @@ if(EPOXY_BUILD_TESTS)
 			add_test(NAME "test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_ascii" COMMAND "test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_ascii")
 
 			add_executable(test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_wide ${WGL_TEST_COMMON} "test/wgl_usefontbitmaps.c")
-			set_target_properties(test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_wide PROPERTIES COMPILE_DEFINITIONS "_UNICODE;UNICODE")
 			target_link_libraries(test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_wide "${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE}")
 			add_test(NAME "test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_wide" COMMAND "test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_wide")
-		endif ()
+
+			if("${EPOXY_TARGET_TYPE}" STREQUAL "shared")
+				set_target_properties(test_wgl_${EPOXY_TARGET_TYPE}_core_and_exts PROPERTIES
+						COMPILE_DEFINITIONS "EPOXY_DLL")
+				set_target_properties(test_wgl_${EPOXY_TARGET_TYPE}_context_funcptrs PROPERTIES
+						COMPILE_DEFINITIONS "EPOXY_DLL")
+				set_target_properties(test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_ascii PROPERTIES
+						COMPILE_DEFINITIONS "EPOXY_DLL")
+				set_target_properties(test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_wide PROPERTIES
+						COMPILE_DEFINITIONS "_UNICODE;UNICODE;EPOXY_DLL")
+			else()
+				set_target_properties(test_wgl_${EPOXY_TARGET_TYPE}_usefontbitmaps_wide PROPERTIES
+						COMPILE_DEFINITIONS "_UNICODE;UNICODE")
+			endif()
+		endif()
 	endforeach()
 endif()
 

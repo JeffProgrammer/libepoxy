@@ -141,7 +141,7 @@ DllMain(HINSTANCE dll, DWORD reason, LPVOID reserved)
     return TRUE;
 }
 
-#ifndef BUILD_SHARED_LIBS
+#ifndef EPOXY_DLL
 #ifdef __GNUC__
 	PIMAGE_TLS_CALLBACK dllmain_callback __attribute__((section(".CRT$XLB"))) = (PIMAGE_TLS_CALLBACK)DllMain;
 #else

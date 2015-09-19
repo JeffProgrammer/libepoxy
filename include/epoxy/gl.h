@@ -51,7 +51,9 @@
 #ifndef _WIN32
 #	define APIENTRY
 #	define GLAPIENTRY
-#	define EPOXY_IMPORTEXPORT
+#	ifndef EPOXY_IMPORTEXPORT
+#		define EPOXY_IMPORTEXPORT
+#	endif
 #	define EPOXY_CALLSPEC
 #	define GLAPI
 #else

@@ -26,40 +26,34 @@
 #		define WIN32_LEAN_AND_MEAN 1
 #	endif
 #	include <windows.h>
-#	ifdef BUILD_SHARED_LIBS
+#	ifdef EPOXY_DLL
 #		define EPOXY_IMPORTEXPORT __declspec(dllexport)
+#	endif
+#else
+#	ifdef EPOXY_DLL
+#		define EPOXY_IMPORTEXPORT __attribute__((visibility("default")))
 #	endif
 #endif
 #ifndef EPOXY_IMPORTEXPORT
 #	define EPOXY_IMPORTEXPORT
 #endif
 
-#include "epoxy/gl.h"
+#include <epoxy/gl.h>
 
 #ifdef BUILD_GLX
-#	include "epoxy/glx.h"
+#	include <epoxy/glx.h>
 #endif
 
 #ifdef BUILD_EGL
-#	include "epoxy/egl.h"
+#	include <epoxy/egl.h>
 #endif
 
 #ifdef BUILD_WGL
-#	include "epoxy/wgl.h"
+#	include <epoxy/wgl.h>
 #endif
 
 #ifndef PUBLIC
-#  ifdef _WIN32
-#    ifdef BUILD_SHARED_LIBS
-#      define PUBLIC __declspec(dllexport)
-#    else
-#      define PUBLIC
-#    endif
-#  elif (defined(__GNUC__) && __GNUC__ >= 4) || (defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590))
-#    define PUBLIC __attribute__((visibility("default")))
-#  else
-#    define PUBLIC
-#  endif
+#	define PUBLIC EPOXY_IMPORTEXPORT
 #endif
 
 #if defined(__GNUC__)
