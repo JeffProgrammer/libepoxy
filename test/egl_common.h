@@ -21,5 +21,7 @@
  * IN THE SOFTWARE.
  */
 
+ #include <epoxy/egl.h>
+
 EGLDisplay *
 get_egl_display_or_skip(void);

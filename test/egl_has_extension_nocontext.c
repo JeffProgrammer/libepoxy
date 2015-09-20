@@ -33,8 +33,6 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <err.h>
-#include "epoxy/gl.h"
-#include "epoxy/egl.h"
 
 #include "egl_common.h"
 

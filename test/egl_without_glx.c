@@ -38,8 +38,6 @@
 #include <assert.h>
 #include <err.h>
 #include <dlfcn.h>
-#include "epoxy/gl.h"
-#include "epoxy/egl.h"
 
 #include "egl_common.h"
 

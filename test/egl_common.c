@@ -22,7 +22,6 @@
  */
 
 #include <err.h>
-#include <epoxy/egl.h>
 #include "egl_common.h"
 
 /**
