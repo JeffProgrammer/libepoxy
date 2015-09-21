@@ -69,20 +69,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)VC12\Lib$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)VC12\Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <TargetName>epoxy0_static</TargetName>
+    <TargetName>epoxy1_static</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>epoxy0_static</TargetName>
+    <TargetName>epoxy1_static</TargetName>
     <IntDir>$(SolutionDir)VC12\Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)VC12\Lib$(PlatformTarget)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)VC12\Lib$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)VC12\Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <TargetName>epoxy0_static</TargetName>
+    <TargetName>epoxy1_static</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>epoxy0_static</TargetName>
+    <TargetName>epoxy1_static</TargetName>
     <IntDir>$(SolutionDir)VC12\Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)VC12\Lib$(PlatformTarget)\$(Configuration)\</OutDir>
   </PropertyGroup>

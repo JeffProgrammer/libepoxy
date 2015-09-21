@@ -18,8 +18,8 @@ endif()
 
 project(epoxy C)
 set(EPOXY_TARGET_NAME epoxy)
-set(TARGET_VER 1.3.1_neph-git)
-set(TARGET_ABI_VER 0)
+set(TARGET_VER 1.3.1_neph)
+set(TARGET_ABI_VER 1)
 set(TARGET_OUTPUT_NAME "${EPOXY_TARGET_NAME}")
 
 #
