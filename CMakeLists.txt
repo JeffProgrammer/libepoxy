@@ -342,13 +342,6 @@ if(EPOXY_BUILD_TESTS)
 				add_test(test_egl_x11_${EPOXY_TARGET_TYPE}_gl test_egl_x11_${EPOXY_TARGET_TYPE}_gl)
 				
 				if(GLES_V2_FOUND AND NOT APPLE)
-					add_executable(test_egl_x11_${EPOXY_TARGET_TYPE}_pointers_both ${DL_TEST_COMMON} ${EGL_TEST_COMMON} ${GLX_TEST_COMMON} "test/egl_and_glx_different_pointers.c")
-					set_target_properties(test_egl_x11_${EPOXY_TARGET_TYPE}_pointers_both PROPERTIES
-							COMPILE_DEFINITIONS "USE_EGL;USE_GLX"
-							LINK_FLAGS "-rdynamic")
-					target_link_libraries(test_egl_x11_${EPOXY_TARGET_TYPE}_pointers_both "${EPOXY_TARGET_NAME}_${EPOXY_TARGET_TYPE}" ${CMAKE_DL_LIBS} ${X11_LIBRARIES})
-					add_test(test_egl_x11_${EPOXY_TARGET_TYPE}_pointers_both test_egl_x11_${EPOXY_TARGET_TYPE}_pointers_both)
-
 					add_executable(test_egl_x11_${EPOXY_TARGET_TYPE}_pointers_egl ${DL_TEST_COMMON} ${EGL_TEST_COMMON} ${GLX_TEST_COMMON} "test/egl_and_glx_different_pointers.c")
 					set_target_properties(test_egl_x11_${EPOXY_TARGET_TYPE}_pointers_egl PROPERTIES
 							COMPILE_DEFINITIONS "USE_EGL"
