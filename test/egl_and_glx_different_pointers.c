@@ -40,10 +40,6 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <err.h>
-#include <dlfcn.h>
-#include "epoxy/gl.h"
-#include "epoxy/egl.h"
-#include "epoxy/glx.h"
 
 #include "egl_common.h"
 #include "glx_common.h"
