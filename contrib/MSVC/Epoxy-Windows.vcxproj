@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -22,31 +22,32 @@
     <ProjectGuid>{4A1945E5-4C0E-4F25-996D-1BEFB89AB360}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Epoxy</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -67,24 +68,24 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)VC12\Lib$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)VC12\Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Lib$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
     <TargetName>epoxy1_static</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>epoxy1_static</TargetName>
-    <IntDir>$(SolutionDir)VC12\Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)VC12\Lib$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Lib$(PlatformTarget)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)VC12\Lib$(PlatformTarget)\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)VC12\Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Lib$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
     <TargetName>epoxy1_static</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>epoxy1_static</TargetName>
-    <IntDir>$(SolutionDir)VC12\Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)VC12\Lib$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Tmp\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Lib$(PlatformTarget)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -94,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>BUILD_WGL;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\registry;$(ProjectDir)..\src;$(ProjectDir)..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\registry;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -103,8 +104,8 @@
     <PreBuildEvent>
       <Command>mkdir $(ProjectDir)Src
 mkdir $(ProjectDir)Include\epoxy
-python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\registry\gl.xml
-python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\registry\wgl.xml
+python $(ProjectDir)..\..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\..\registry\gl.xml
+python $(ProjectDir)..\..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\..\registry\wgl.xml
 </Command>
       <Message>Generating OpenGL &amp; WGL Dispatch</Message>
     </PreBuildEvent>
@@ -117,7 +118,7 @@ python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\r
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>BUILD_WGL;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\registry;$(ProjectDir)..\src;$(ProjectDir)..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\registry;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,8 +128,8 @@ python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\r
       <Message>Generating OpenGL &amp; WGL Dispatch</Message>
       <Command>mkdir $(ProjectDir)Src
 mkdir $(ProjectDir)Include\epoxy
-python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\registry\gl.xml
-python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\registry\wgl.xml
+python $(ProjectDir)..\..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\..\registry\gl.xml
+python $(ProjectDir)..\..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\..\registry\wgl.xml
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -142,7 +143,7 @@ python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\r
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>BUILD_WGL;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\registry;$(ProjectDir)..\src;$(ProjectDir)..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\registry;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -154,8 +155,8 @@ python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\r
       <Message>Generating OpenGL &amp; WGL Dispatch</Message>
       <Command>mkdir $(ProjectDir)Src
 mkdir $(ProjectDir)Include\epoxy
-python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\registry\gl.xml
-python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\registry\wgl.xml
+python $(ProjectDir)..\..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\..\registry\gl.xml
+python $(ProjectDir)..\..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\..\registry\wgl.xml
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -169,7 +170,7 @@ python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\r
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>BUILD_WGL;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\registry;$(ProjectDir)..\src;$(ProjectDir)..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\registry;$(ProjectDir)..\..\src;$(ProjectDir)..\..\include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -181,25 +182,26 @@ python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\r
       <Message>Generating OpenGL &amp; WGL Dispatch</Message>
       <Command>mkdir $(ProjectDir)Src
 mkdir $(ProjectDir)Include\epoxy
-python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\registry\gl.xml
-python $(ProjectDir)..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\registry\wgl.xml
+python $(ProjectDir)..\..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\..\registry\gl.xml
+python $(ProjectDir)..\..\src\gen_dispatch.py --dir $(ProjectDir) $(ProjectDir)..\..\registry\wgl.xml
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="..\COPYING" />
-    <Text Include="..\README.md" />
+    <Text Include="..\..\COPYING" />
+    <Text Include="..\..\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\epoxy\gl.h" />
-    <ClInclude Include="..\include\epoxy\wgl.h" />
-    <ClInclude Include="..\src\dispatch_common.h" />
+    <ClInclude Include="..\..\include\epoxy\gl.h" />
+    <ClInclude Include="..\..\include\epoxy\wgl.h" />
+    <ClInclude Include="..\..\registry\KHR\khrplatform.h" />
+    <ClInclude Include="..\..\src\dispatch_common.h" />
     <ClInclude Include="Include\epoxy\gl_generated.h" />
     <ClInclude Include="Include\epoxy\wgl_generated.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\dispatch_common.c" />
-    <ClCompile Include="..\src\dispatch_wgl.c" />
+    <ClCompile Include="..\..\src\dispatch_common.c" />
+    <ClCompile Include="..\..\src\dispatch_wgl.c" />
     <ClCompile Include="Src\gl_generated_dispatch.c" />
     <ClCompile Include="Src\wgl_generated_dispatch.c" />
   </ItemGroup>

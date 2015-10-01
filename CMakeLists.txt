@@ -26,7 +26,7 @@ set(TARGET_OUTPUT_NAME "${EPOXY_TARGET_NAME}")
 # CMake Modules
 #
 
-list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake/modules")
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/contrib/CMake/modules")
 include(CheckCCompilerFlag)
 include(CheckIncludeFile)
 include(CMakeDependentOption)

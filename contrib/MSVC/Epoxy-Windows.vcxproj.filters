@@ -16,39 +16,45 @@
     <Filter Include="Header Files\epoxy">
       <UniqueIdentifier>{3D2638E2-6E68-470D-978A-C86387730E90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\KHR">
+      <UniqueIdentifier>{1da5aece-f43e-4747-b61a-ea77af6bb491}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\COPYING" />
-    <Text Include="..\README.md" />
+    <Text Include="..\..\COPYING" />
+    <Text Include="..\..\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\dispatch_common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\epoxy\gl.h">
-      <Filter>Header Files\epoxy</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\epoxy\wgl.h">
-      <Filter>Header Files\epoxy</Filter>
-    </ClInclude>
     <ClInclude Include="Include\epoxy\gl_generated.h">
       <Filter>Header Files\epoxy</Filter>
     </ClInclude>
     <ClInclude Include="Include\epoxy\wgl_generated.h">
       <Filter>Header Files\epoxy</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\epoxy\gl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\epoxy\wgl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\dispatch_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\registry\KHR\khrplatform.h">
+      <Filter>Header Files\KHR</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\dispatch_common.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\dispatch_wgl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\gl_generated_dispatch.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\wgl_generated_dispatch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dispatch_common.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dispatch_wgl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
