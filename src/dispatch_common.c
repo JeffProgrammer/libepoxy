@@ -196,8 +196,6 @@ static struct api api = {
 
 static bool library_initialized;
 
-static bool epoxy_current_context_is_egl(void);
-
 #ifdef BUILD_EGL
 static EGLenum
 epoxy_egl_get_current_gl_context_api(void);
@@ -395,7 +393,7 @@ epoxy_internal_has_gl_extension(const char *ext, bool invalid_op_mode)
  * Tests whether the currently bound context is EGL or GLX, trying to
  * avoid loading libraries unless necessary.
  */
-static bool
+EPOXY_IMPORTEXPORT bool
 epoxy_current_context_is_egl(void)
 {
 #ifdef BUILD_EGL
