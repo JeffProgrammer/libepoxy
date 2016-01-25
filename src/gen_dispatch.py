@@ -505,8 +505,9 @@ class Generator(object):
                                                                                      func.args_decl))
             self.outln('')
 
-        for func in self.sorted_functions:
-            self.outln('#define {0} epoxy_{0}'.format(func.name))
+		  # Jeff: We don't write out the defines.		
+        #for func in self.sorted_functions:
+            #self.outln('#define {0} epoxy_{0}'.format(func.name))
 
     def write_function_ptr_resolver(self, func):
         self.outln('static {0}'.format(func.ptr_type))
@@ -582,11 +583,11 @@ class Generator(object):
         # It also writes out the actual initialized global function
         # pointer.
         if func.ret_type == 'void' or func.ret_type == 'VOID':
-            self.outln('GEN_THUNKS({0}, ({1}), ({2}))'.format(func.wrapped_name,
+            self.outln('GEN_THUNKS(epoxy_{0}, ({1}), ({2}))'.format(func.wrapped_name,
                                                               func.args_decl,
                                                               func.args_list))
         else:
-            self.outln('GEN_THUNKS_RET({0}, {1}, ({2}), ({3}))'.format(func.ret_type,
+            self.outln('GEN_THUNKS_RET({0}, epoxy_{1}, ({2}), ({3}))'.format(func.ret_type,
                                                                        func.wrapped_name,
                                                                        func.args_decl,
                                                                        func.args_list))
